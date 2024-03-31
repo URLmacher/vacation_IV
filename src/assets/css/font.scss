@@ -1,0 +1,89 @@
+@font-face {
+  font-family: 'Jumpman-1m20';
+  font-style: normal;
+  src: local('Jumpman-1m20'), url('@/assets/fonts/Jumpman-1m20.ttf') format('truetype');
+}
+
+@mixin _font($weight, $size) {
+  font-family: 'Jumpman-1m20', Helvetica, Arial, cursive, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: $weight;
+  font-size: $size;
+
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  margin: 0;
+}
+
+@mixin blockMargins() {
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+h1 {
+  @include _font(normal, 90px);
+  @include blockMargins();
+  letter-spacing: -1.5px;
+}
+
+h2 {
+  @include _font(normal, 52px);
+  @include blockMargins();
+  letter-spacing: -0.45px;
+}
+
+h3 {
+  @include _font(600, 44px);
+  @include blockMargins();
+  letter-spacing: -0.5px;
+}
+
+h4 {
+  @include _font(600, 28px);
+  @include blockMargins();
+  letter-spacing: 0.23px;
+}
+
+h5 {
+  @include _font(600, 20px);
+  @include blockMargins();
+  letter-spacing: normal;
+  line-height: 1.2;
+}
+
+h6 {
+  @include _font(500, 16px);
+  @include blockMargins();
+  letter-spacing: normal;
+  line-height: 1.25;
+}
+
+a,
+button {
+  @include _font(600, 2rem);
+  letter-spacing: 1.2px;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+p {
+  @include _font(normal, 15px);
+  @include blockMargins();
+  letter-spacing: 0.5px;
+  line-height: 1.27;
+}
+
+span {
+  @include blockMargins();
+}
+
+small {
+  @include _font(normal, 11px);
+  letter-spacing: 0.5px;
+  line-height: 1.27;
+}
