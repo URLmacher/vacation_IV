@@ -1,23 +1,29 @@
+import type { IDrawable } from '@/interfaces';
 import type { Game } from './Game';
+import { EExplosionType } from '@/enums';
 
-export class Explosion {
-  private spriteWidth: number = 200
-  private spriteHeight: number = 200
-  private width: number
-  private height: number
-  private x: number
-  private y: number
+export class Explosion implements IDrawable {
+  public x: number;
+  public y: number;
+  public width: number;
+  public height: number;
 
-  private fps: number = 30
-  private timer: number = 0
-  private interval: number
-  public markedForDeletion: boolean = false
+  public fps: number = 30;
+  public frameX: number = 0;
+  public image: HTMLElement | null = null;
+  public interval: number;
+  public markedForDeletion: boolean = false;
+  public maxFrame: number = 8;
+  public spriteHeight: number = 200;
+  public spriteWidth: number = 200;
+  public timer: number = 0;
+  public type: EExplosionType = EExplosionType.BASE;
 
-  private frameX: number = 0
-  private maxFrame : number = 8
-  private image: HTMLImageElement = new Image()
-
-  constructor(private game: Game, x: number, y: number) {
+  constructor(
+    private game: Game,
+    x: number,
+    y: number
+  ) {
     this.width = this.spriteWidth;
     this.height = this.spriteHeight;
     this.x = x - this.width * 0.5;
@@ -37,8 +43,9 @@ export class Explosion {
   }
 
   public draw(context: CanvasRenderingContext2D): void {
+    if (!this.image) return;
     context.drawImage(
-      this.image,
+      this.image as CanvasImageSource,
       this.frameX * this.spriteWidth,
       0,
       this.spriteWidth,
@@ -48,5 +55,21 @@ export class Explosion {
       this.width,
       this.height
     );
+  }
+}
+
+export class SmokeExplosion extends Explosion {
+  public type: EExplosionType = EExplosionType.BASE;
+
+  constructor(game: Game, x: number, y: number) {
+    super(game, x, y);
+    this.image = document.getElementById(this.type);
+  }
+}
+
+export class FireExplosion extends Explosion {
+  constructor(game: Game, x: number, y: number) {
+    super(game, x, y);
+    this.image = document.getElementById(this.type);
   }
 }

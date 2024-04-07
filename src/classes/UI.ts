@@ -1,5 +1,6 @@
 import type { Game } from './Game';
 
+// TODO: UI
 export class UI {
   private fontSize = 25;
   private fontFamily = 'Helvetica';

@@ -1,12 +1,15 @@
+import type { IDrawable } from '@/interfaces';
 import type { Game } from './Game';
 
-export class Projectile {
+export class Projectile implements IDrawable {
+  public x: number;
+  public y: number;
+  public height: number = 3;
+  public width: number = 10;
+
   public markedForDeletion = false;
-  private width = 10;
-  private height = 3;
-  private speed = 3;
-  private x;
-  private y;
+  public speed = 3;
+  public image: HTMLElement | null = null;
 
   constructor(
     private game: Game,
@@ -15,6 +18,7 @@ export class Projectile {
   ) {
     this.x = x;
     this.y = y;
+    this.image = document.getElementById('projectile');
   }
 
   public update(): void {
