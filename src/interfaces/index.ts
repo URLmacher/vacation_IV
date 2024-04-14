@@ -4,3 +4,8 @@ export interface IDrawable {
   x: number;
   y: number;
 }
+
+export interface IAsset {
+  path: string;
+  key: string;
+}

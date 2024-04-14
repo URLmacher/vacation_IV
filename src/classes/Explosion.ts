@@ -59,7 +59,7 @@ export class Explosion implements IDrawable {
 }
 
 export class SmokeExplosion extends Explosion {
-  public type: EExplosionType = EExplosionType.BASE;
+  public type: EExplosionType = EExplosionType.SMOKE;
 
   constructor(game: Game, x: number, y: number) {
     super(game, x, y);
@@ -68,6 +68,8 @@ export class SmokeExplosion extends Explosion {
 }
 
 export class FireExplosion extends Explosion {
+  public type: EExplosionType = EExplosionType.FIRE;
+
   constructor(game: Game, x: number, y: number) {
     super(game, x, y);
     this.image = document.getElementById(this.type);

@@ -33,8 +33,8 @@ export class Player implements IDrawable {
       this.speedY = this.maxSpeed;
     } else {
       this.speedY = 0;
-      this.y += this.speedY;
     }
+    this.y += this.speedY;
 
     // vertical boundaries
     if (this.y > this.game.height - this.height * 0.5) {
@@ -42,6 +42,12 @@ export class Player implements IDrawable {
     } else if (this.y < -this.height * 0.5) {
       this.y = -this.height * 0.5;
     }
+    
+    // handle projectiles
+    this.projectiles.forEach(projectile => {
+      projectile.update()
+    });
+    this.projectiles = this.projectiles.filter(projectile => !projectile.markedForDeletion);
 
     // sprite animation
     if (this.frameX < this.maxFrame) {

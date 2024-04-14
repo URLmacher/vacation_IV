@@ -5,8 +5,8 @@ const CONTROL_KEYS = [EKey.ARROW_UP, EKey.ARROW_DOWN];
 
 export class InputHandler {
   constructor(private game: Game) {
-    window.addEventListener('keydown', this.handleKeydown);
-    window.addEventListener('keyup', this.handleKeyup);
+    window.addEventListener('keydown', (e) => this.handleKeydown(e));
+    window.addEventListener('keyup', (e) => this.handleKeyup(e));
   }
 
   private handleKeydown(e: KeyboardEvent): void {

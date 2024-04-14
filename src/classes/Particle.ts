@@ -29,7 +29,7 @@ export class Particle implements IDrawable {
   ) {
     this.x = x;
     this.y = y;
-    this.image = document.getElementById('gears');
+    this.image = document.getElementById('particle');
   }
 
   public update(): void {

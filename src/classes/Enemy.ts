@@ -23,8 +23,8 @@ export class Enemy implements IDrawable {
     x?: number,
     y?: number
   ) {
-    this.x = x || this.game.width;
-    this.y = y || 0;
+    this.y = y != null ? y : this.y;
+    this.x = x != null ? x : this.game.width;
     this.speedX = Math.random() * -1.5 - 0.5;
   }
 
@@ -74,35 +74,19 @@ export class EnemyOne extends Enemy {
 
   constructor(game: Game) {
     super(game);
-    this.image = document.getElementById(this.type);
     this.y = Math.random() * (this.game.height * 0.9 - this.height);
+    this.image = document.getElementById(this.type);
   }
 }
 
 export class EnemyTwo extends Enemy {
-  public width: number = 228;
-  public height: number = 169;
-
-  public frameY = Math.floor(Math.random() * 3);
-  public lives: number = 5;
-  public score: number = this.lives;
-  public type: EEnemyType = EEnemyType.TWO;
-
-  constructor(game: Game) {
-    super(game);
-    this.image = document.getElementById(this.type);
-    this.y = Math.random() * (this.game.height * 0.9 - this.height);
-  }
-}
-
-export class EnemyThree extends Enemy {
   public width: number = 213;
   public height: number = 165;
 
-  public frameY = Math.floor(Math.random() * 2);
+  public frameY =Math.floor(Math.random() * 2)
   public lives: number = 6;
   public score: number = this.lives;
-  public type: EEnemyType = EEnemyType.THREE;
+  public type: EEnemyType = EEnemyType.TWO;
 
   constructor(game: Game) {
     super(game);
@@ -111,14 +95,14 @@ export class EnemyThree extends Enemy {
   }
 }
 
-export class EnemyFour extends Enemy {
+export class PowerUpEnemy extends Enemy {
   public width: number = 99;
   public height: number = 95;
 
   public frameY = Math.floor(Math.random() * 2);
   public lives: number = 5;
   public score: number = 15;
-  public type: EEnemyType = EEnemyType.FOUR;
+  public type: EEnemyType = EEnemyType.POWER_UP;
 
   constructor(game: Game) {
     super(game);
@@ -127,14 +111,14 @@ export class EnemyFour extends Enemy {
   }
 }
 
-export class EnemyFive extends Enemy {
+export class HiveEnemy extends Enemy {
   public width: number = 400;
   public height: number = 227;
 
   public frameY = 0;
   public lives: number = 20;
   public score: number = this.lives;
-  public type: EEnemyType = EEnemyType.FIVE;
+  public type: EEnemyType = EEnemyType.HIVE;
 
   constructor(game: Game) {
     super(game);
@@ -144,14 +128,14 @@ export class EnemyFive extends Enemy {
   }
 }
 
-export class EnemySix extends Enemy {
+export class DroneEnemy extends Enemy {
   public width: number = 115;
   public height: number = 95;
 
   public frameY = Math.floor(Math.random() * 2);
   public lives: number = 3;
   public score: number = this.lives;
-  public type: EEnemyType = EEnemyType.SIX;
+  public type: EEnemyType = EEnemyType.DRONE;
 
   constructor(game: Game, x: number, y: number) {
     super(game);

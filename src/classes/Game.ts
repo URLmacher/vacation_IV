@@ -5,10 +5,10 @@ import { UI } from './UI';
 import {
   EnemyOne,
   type Enemy,
-  EnemyFive,
-  EnemySix,
+  PowerUpEnemy,
   EnemyTwo,
-  EnemyThree
+  HiveEnemy,
+  DroneEnemy
 } from './Enemy';
 import { Background } from './Background';
 import { Particle } from './Particle';
@@ -18,39 +18,40 @@ import type { IDrawable } from '@/interfaces';
 export class Game {
   public height: number;
   public width: number;
-  public keys: EKey[] = [];
 
   public ammo: number = 20;
-  public maxAmmo: number = 20;
+  public ammoInterval: number = 350;
   public ammoTimer: number = 0;
-  public ammoInterval: number = 500;
+  public maxAmmo: number = 50;
   public maxInterval: number = 50;
 
   public enemyTimer: number = 0;
-  public enemyInterval: number = 0;
+  public enemyInterval: number = 2000;
 
-  public speed: number = 1;
-  public gameOver: boolean = false;
-  public score: number = 0;
-  public gameTime: number = 0;
-  public timeLimit: number = 0;
   public debug: boolean = false;
+  public gameOver: boolean = false;
+  public gameTime: number = 0;
+  public score: number = 0;
+  public speed: number = 1;
+  public timeLimit: number = 30000;
+  public winningScore: number = 100;
 
-  public player: Player;
   public background: Background;
-  public inputHandler: InputHandler;
-  public ui: UI;
   public enemies: Enemy[] = [];
-  public particles: Particle[] = [];
   public explosions: Explosion[] = [];
+  public inputHandler: InputHandler;
+  public keys: EKey[] = [];
+  public particles: Particle[] = [];
+  public player: Player;
+  public ui: UI;
 
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
+    this.background = new Background(this);
     this.player = new Player(this);
     this.inputHandler = new InputHandler(this);
     this.ui = new UI(this);
-    this.background = new Background(this);
   }
 
   public update(deltaTime: number): void {
@@ -82,6 +83,7 @@ export class Game {
       enemy.update();
       if (this.checkCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
+
         this.addExplosion(enemy);
         for (let i = 0; i < enemy.score; i++) {
           this.particles.push(
@@ -92,7 +94,7 @@ export class Game {
             )
           );
         }
-        if (enemy.type == EEnemyType.THREE) this.player.enterPowerUp();
+        if (enemy.type == EEnemyType.POWER_UP) this.player.enterPowerUp();
         else if (!this.gameOver) this.score--;
       }
       this.player.projectiles.forEach((projectile) => {
@@ -118,10 +120,10 @@ export class Game {
             }
             enemy.markedForDeletion = true;
             this.addExplosion(enemy);
-            if (enemy.type === EEnemyType.THREE) {
+            if (enemy.type === EEnemyType.DRONE) {
               for (let i = 0; i < 5; i++) {
                 this.enemies.push(
-                  new EnemySix(
+                  new DroneEnemy(
                     this,
                     enemy.x + Math.random() * enemy.width,
                     enemy.y + Math.random() * enemy.height * 0.5
@@ -146,17 +148,25 @@ export class Game {
   }
 
   public draw(context: CanvasRenderingContext2D): void {
-    this.player.draw(context);
+    this.background.draw(context);
     this.ui.draw(context);
-    this.enemies.forEach((enemy) => enemy.draw(context));
+    this.player.draw(context);
+    this.particles.forEach(particle => particle.draw(context));
+    this.enemies.forEach(enemy => {
+      enemy.draw(context);
+    });
+    this.explosions.forEach(explosion => {
+      explosion.draw(context);
+    });
+    this.background.layer4.draw(context);
   }
 
   private addEnemy() {
     const randomize = Math.random();
     if (randomize < 0.3) this.enemies.push(new EnemyOne(this));
     else if (randomize < 0.6) this.enemies.push(new EnemyTwo(this));
-    else if (randomize < 0.7) this.enemies.push(new EnemyThree(this));
-    else this.enemies.push(new EnemyFive(this));
+    else if (randomize < 0.7) this.enemies.push(new HiveEnemy(this));
+    else this.enemies.push(new PowerUpEnemy(this));
   }
 
   private checkCollision(drawable1: IDrawable, drawable2: IDrawable): boolean {
