@@ -1,5 +1,6 @@
 <template>
   <canvas ref="canvasDomElement" class="canvas"></canvas>
+
   <img
     v-for="image of IMAGES"
     class="asset"
@@ -7,18 +8,48 @@
     :id="image.key"
     :src="image.path"
   />
+
+  <DialogOverlay :open="!gameStarted">
+    <h1 class="vacation__title">{{ TEXTS.vacationTitle }}</h1>
+    <h3 class="vacation__sub-title">{{ TEXTS.vacationYear }}</h3>
+    <div v-if="newGamePlus" class="vacation__confirmed">
+      <FireWork />
+      <p class="vacation__confirmed-text">{{ TEXTS.allConfirmed }}</p>
+    </div>
+    <button
+      class="vacation__button"
+      @click="startGame"
+      :disabled="gameStarted"
+    >
+      {{ newGamePlus ? TEXTS.btnTextRoundTwo : TEXTS.btnText }}
+    </button>
+  </DialogOverlay>
 </template>
 
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted, ref } from 'vue';
-  import { Game } from './classes/Game';
-  import { IMAGES } from './constants';
+  import DialogOverlay from './components/DialogOverlay.vue';
+  import FireWork from './components/FireWork.vue';
+  import { GAME_OVER, Game } from './classes/Game';
+  import { IMAGES, TEXTS } from './constants';
   import { debounce } from './utils';
 
   const canvasDomElement = ref<HTMLCanvasElement | null>(null);
   const context = ref<CanvasRenderingContext2D | null>(null);
   const game = ref<Game | null>(null);
+  const gameStarted = ref<boolean>(false);
+  const newGamePlus = ref<boolean>(false);
   const lastTimeStamp = ref<number>(0);
+
+  const startGame = (): void => {
+    gameStarted.value = true;
+    game.value?.start();
+  };
+
+  const stopGame = (): void => {
+    gameStarted.value = false;
+    newGamePlus.value = true;
+  };
 
   onMounted((): void => {
     if (!canvasDomElement.value) return;
@@ -28,6 +59,8 @@
     canvasDomElement.value.height = height;
     game.value = new Game(width, height);
     animate(0);
+
+    window.addEventListener(GAME_OVER, stopGame);
     window.addEventListener('resize', handleResize);
   });
 
@@ -48,6 +81,7 @@
   });
 
   onBeforeUnmount((): void => {
+    window.removeEventListener(GAME_OVER, stopGame);
     window.removeEventListener('resize', handleResize);
   });
 </script>

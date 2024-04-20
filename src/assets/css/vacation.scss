@@ -1,0 +1,108 @@
+.vacation {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background: url('./assets/images/BG.png');
+  background-size: cover;
+
+  &__title {
+    color: var(--color-violet);
+    background: -webkit-linear-gradient(var(--color-violet), var(--color-violet-alt));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 50px;
+
+    @include window-medium {
+      font-size: 90px;
+    }
+  }
+
+  &__sub-title {
+    color: var(--color-blue);
+    margin-bottom: 50px;
+    font-size: 36px;
+    animation: tilt-shaking 0.8s infinite;
+
+    @include window-medium {
+      font-size: 56px;
+    }
+  }
+
+  &__confirmed {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    background-color: var(--color-green);
+    border: 2px solid var(--color-text);
+    position: absolute;
+    left: 50%;
+    top: -65px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    @include window-medium {
+      height: 150px;
+      width: 150px;
+      top: -105px;
+    }
+  }
+
+  &__confirmed-text {
+    color: var(--color-pink);
+    font-size: 16px;
+
+    @include window-medium {
+      font-size: 26px;
+    }
+  }
+
+  &__button {
+    display: inline-block;
+    text-transform: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.35s cubic-bezier(0.1, 0, 0, 1);
+    padding: 15px 20px;
+    color: #fff;
+    box-shadow:
+      inset 0 0 0 var(--color-text),
+      0 0 0 var(--color-text);
+    text-shadow: 0 0 var(--color-text);
+    background: var(--color-pink);
+    background: linear-gradient(0deg, var(--color-pink) 0%, var(--color-pink-alt) 100%);
+    border: 2px solid var(--color-text);
+    border-radius: var(--border-radius);
+    font-size: 20px;
+
+    @include window-medium {
+      font-size: 30px;
+    }
+
+    &:active {
+      transform: scale(0.98);
+      box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+        0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    &:hover {
+      border-radius: 10px;
+      box-shadow:
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: scale(1.06);
+      text-shadow: 0 -1px rgba(0, 0, 0, 0.1);
+    }
+
+    &:visited {
+      transform: scale(1);
+    }
+  }
+}

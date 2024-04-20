@@ -16,6 +16,8 @@ import { Player } from './Player';
 import { UI } from './UI';
 import type { Projectile } from './Projectile';
 
+export const GAME_OVER = 'game-over';
+
 export class Game {
   public height: number;
   public width: number;
@@ -28,10 +30,11 @@ export class Game {
 
   public enemyTimer: number = 0;
   public enemyInterval: number = 2000;
-  public dateTargetsToConfirm: string[] = DATES;
-  public targetsLeft: number = DATES.length
+  public dateTargetsToConfirm: string[] = [...DATES];
+  public dateTargetsConfirmed: string[] = [];
   public debug: boolean = false;
   public speed: number = 1;
+  public started: boolean = false;
 
   public background: Background;
   public enemies: Enemy[] = [];
@@ -55,6 +58,7 @@ export class Game {
     this.background.update();
     this.background.layer4.update();
     this.player.update(deltaTime);
+    if (!this.started) return;
 
     if (this.ammoTimer > this.ammoInterval) {
       if (this.ammo < this.maxAmmo) this.ammo++;
@@ -88,6 +92,8 @@ export class Game {
     this.background.draw(context);
     this.ui.draw(context);
     this.player.draw(context);
+    if (!this.started) return;
+
     this.particles.forEach((particle) => particle.draw(context));
     this.enemies.forEach((enemy) => {
       enemy.draw(context);
@@ -98,13 +104,35 @@ export class Game {
     this.background.layer4.draw(context);
   }
 
+  public start(): void {
+    this.dateTargetsToConfirm = [...DATES];
+    this.dateTargetsConfirmed = [];
+    this.started = true;
+  }
+
+  private handleKill(enemy: Enemy): void {
+    if (!this.dateTargetsConfirmed.includes(enemy.date)) {
+      this.dateTargetsConfirmed.push(enemy.date);
+    }
+
+    if (this.dateTargetsConfirmed.length === DATES.length) {
+      const event = new Event(GAME_OVER);
+      window.dispatchEvent(event);
+      this.started = false;
+    }
+  }
+
   private addEnemy() {
     const randomize = Math.random();
-    const dateTargetToConfirm = this.dateTargetsToConfirm.pop()
-    if(dateTargetToConfirm == null) return;
-    if (randomize < 0.3) this.enemies.push(new EnemyOne(this, dateTargetToConfirm));
-    else if (randomize < 0.6) this.enemies.push(new EnemyTwo(this, dateTargetToConfirm));
-    else if (randomize < 0.7) this.enemies.push(new HiveEnemy(this, dateTargetToConfirm));
+    const dateTargetToConfirm = this.dateTargetsToConfirm.pop();
+    if (dateTargetToConfirm == null) return;
+
+    if (randomize < 0.3)
+      this.enemies.push(new EnemyOne(this, dateTargetToConfirm));
+    else if (randomize < 0.6)
+      this.enemies.push(new EnemyTwo(this, dateTargetToConfirm));
+    else if (randomize < 0.7)
+      this.enemies.push(new HiveEnemy(this, dateTargetToConfirm));
     else this.enemies.push(new PowerUpEnemy(this, dateTargetToConfirm));
   }
 
@@ -115,6 +143,55 @@ export class Game {
       drawable1.y < drawable2.y + drawable2.height &&
       drawable1.height + drawable1.y > drawable2.y
     );
+  }
+
+  private handleEnemyAnimation = (enemy: Enemy): void => {
+    enemy.update();
+    if (this.checkCollision(this.player, enemy)) {
+      this.handlePlayerHitByEnemy(enemy);
+    }
+    this.player.projectiles.forEach((projectile) =>
+      this.handleProjectileAnimation(enemy, projectile)
+    );
+  };
+
+  private handleProjectileAnimation = (
+    enemy: Enemy,
+    projectile: Projectile
+  ): void => {
+    if (this.checkCollision(projectile, enemy)) {
+      enemy.lives--;
+      projectile.markedForDeletion = true;
+      this.addParticles(enemy);
+
+      if (enemy.lives <= 0) {
+        // handle kill
+        this.handleKill(enemy);
+        enemy.markedForDeletion = true;
+        this.addExplosion(enemy);
+      }
+    }
+  };
+
+  private handlePlayerHitByEnemy(enemy: Enemy): void {
+    enemy.markedForDeletion = true;
+    this.addExplosion(enemy);
+    this.addParticles(enemy);
+    if (enemy.type == EEnemyType.POWER_UP) {
+      this.player.enterPowerUp();
+    }
+  }
+
+  private addParticles(enemy: Enemy): void {
+    for (let i = 0; i < enemy.score; i++) {
+      this.particles.push(
+        new Particle(
+          this,
+          enemy.x + enemy.width * 0.5,
+          enemy.y + enemy.height * 0.5
+        )
+      );
+    }
   }
 
   private addExplosion(enemy: Enemy): void {
@@ -137,60 +214,4 @@ export class Game {
       );
     }
   }
-
-  private handleEnemyAnimation = (enemy: Enemy): void => {
-    enemy.update();
-    if (this.checkCollision(this.player, enemy)) {
-      enemy.markedForDeletion = true;
-      this.addExplosion(enemy);
-      for (let i = 0; i < enemy.score; i++) {
-        this.particles.push(
-          new Particle(
-            this,
-            enemy.x + enemy.width * 0.5,
-            enemy.y + enemy.height * 0.5
-          )
-        );
-      }
-      if (enemy.type == EEnemyType.POWER_UP) {
-        this.player.enterPowerUp();
-      }
-    }
-    this.player.projectiles.forEach((projectile) =>
-      this.handleProjectileAnimation(enemy, projectile)
-    );
-  };
-
-  private handleProjectileAnimation = (
-    enemy: Enemy,
-    projectile: Projectile
-  ): void => {
-    if (this.checkCollision(projectile, enemy)) {
-      enemy.lives--;
-      projectile.markedForDeletion = true;
-      this.particles.push(
-        new Particle(
-          this,
-          enemy.x + enemy.width * 0.5,
-          enemy.y + enemy.height * 0.5
-        )
-      );
-      if (enemy.lives <= 0) {
-        for (let i = 0; i < enemy.score; i++) {
-          this.particles.push(
-            new Particle(
-              this,
-              enemy.x + enemy.width * 0.5,
-              enemy.y + enemy.height * 0.5
-            )
-          );
-        }
-
-        enemy.markedForDeletion = true;
-        this.targetsLeft--;
-
-        this.addExplosion(enemy);
-      }
-    }
-  };
 }

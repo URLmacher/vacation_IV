@@ -4,3 +4,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+$window-medium-min: 800px;
+
+@mixin window-medium {
+  @media (min-width: #{$window-medium-min}) {
+    @content;
+  }
+}

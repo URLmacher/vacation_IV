@@ -1,4 +1,4 @@
-import { FONT_FAMILY } from '@/constants';
+import { DATES, FONT_FAMILY, TEXTS } from '@/constants';
 import type { Game } from './Game';
 
 export class UI {
@@ -17,25 +17,9 @@ export class UI {
     context.shadowColor = 'black';
     context.font = `${this.fontSize}px ${FONT_FAMILY}`;
     // score
-    context.fillText('Score: ' + this.game.targetsLeft, 20, 40);
-    // game over messages
-    if (this.game.targetsLeft === 0) {
-      context.textAlign = 'center';
-      const message1 = 'Most Wondrous!';
-      const message2 = 'Well done explorer!';
-      context.font = `${this.fontSize}px ${FONT_FAMILY}`;
-      context.fillText(
-        message1,
-        this.game.width * 0.5,
-        this.game.height * 0.5 - 20
-      );
-      context.font = `${this.fontSize}px ${FONT_FAMILY}`;
-      context.fillText(
-        message2,
-        this.game.width * 0.5,
-        this.game.height * 0.5 + 20
-      );
-    }
+    const datesToConfirm = DATES.length - this.game.dateTargetsConfirmed.length;
+    context.fillText(`${TEXTS.toConfirm} ${datesToConfirm}`, 20, 40);
+
     // ammo
     if (this.game.player.powerUp) context.fillStyle = '#ffffbd';
     for (let i = 0; i < this.game.ammo; i++) {
