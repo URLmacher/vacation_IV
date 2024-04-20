@@ -10,9 +10,10 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { onBeforeUnmount, onMounted, ref } from 'vue';
   import { Game } from './classes/Game';
   import { IMAGES } from './constants';
+  import { debounce } from './utils';
 
   const canvasDomElement = ref<HTMLCanvasElement | null>(null);
   const context = ref<CanvasRenderingContext2D | null>(null);
@@ -23,10 +24,11 @@
     if (!canvasDomElement.value) return;
     context.value = canvasDomElement.value.getContext('2d');
     const { width, height } = canvasDomElement.value.getBoundingClientRect();
-    canvasDomElement.value.width = 1000;
-    canvasDomElement.value.height = 500;
+    canvasDomElement.value.width = width;
+    canvasDomElement.value.height = height;
     game.value = new Game(width, height);
     animate(0);
+    window.addEventListener('resize', handleResize);
   });
 
   const animate = (timeStamp: number): void => {
@@ -40,19 +42,26 @@
     game.value?.draw(context.value);
     requestAnimationFrame(animate);
   };
+
+  const handleResize = debounce((): void => {
+    location.reload();
+  });
+
+  onBeforeUnmount((): void => {
+    window.removeEventListener('resize', handleResize);
+  });
 </script>
 
 <style scoped lang="scss">
   .canvas {
-    border: 5px solid black;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: blue;
-    font-family: 'Bangers', cursive;
-    height: 500px;
-    width: 1000px;
+    height: 100%;
+    width: 100%;
+    max-width: 1768px;
+    max-height: 500px;
   }
 
   .asset {

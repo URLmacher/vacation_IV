@@ -10,8 +10,7 @@ export enum EEnemyType {
   ONE = 'one',
   TWO = 'two',
   POWER_UP = 'power_up',
-  HIVE = 'hive',
-  DRONE = 'drone'
+  HIVE = 'hive'
 }
 
 export enum EExplosionType {
