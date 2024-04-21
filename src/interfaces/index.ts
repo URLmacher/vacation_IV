@@ -8,4 +8,6 @@ export interface IDrawable {
 export interface IAsset {
   path: string;
   key: string;
+  width: number;
+  height: number;
 }

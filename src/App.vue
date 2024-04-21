@@ -95,7 +95,7 @@
     height: 100%;
     width: 100%;
     max-width: 1768px;
-    max-height: 500px;
+    max-height: 800px;
   }
 
   .asset {

@@ -2,22 +2,20 @@ import { EEnemyType } from '@/enums';
 import type { Game } from './Game';
 import type { IDrawable } from '@/interfaces';
 import { formatDate, formatMonth } from '@/utils';
-import { FONT_FAMILY } from '@/constants';
+import { FONT_FAMILY, IMAGES } from '@/constants';
 
 export class Enemy implements IDrawable {
   public x: number;
   public y: number = 0;
-  public width: number = 10;
-  public height: number = 3;
+  public width: number = 0;
+  public height: number = 0;
 
   public date: string;
 
-  public frameX: number = 0;
-  public frameY: number = 0;
   public image: HTMLElement | null = null;
   public lives: number = 3;
+  public isFlashing: boolean = false;
   public markedForDeletion: boolean = false;
-  public maxFrame: number = 37;
   public score: number = 0;
   public speedX: number = Math.random() * -1.5 - 0.5;
   public type: EEnemyType = EEnemyType.BASE;
@@ -38,26 +36,24 @@ export class Enemy implements IDrawable {
     this.x += this.speedX - this.game.speed;
     if (this.x + this.width < 0) {
       this.markedForDeletion = true;
-    }
-
-    // sprite animation
-    if (this.frameX < this.maxFrame) {
-      this.frameX++;
-    } else {
-      this.frameX = 0;
+      this.game.dateTargetsToConfirm.push(this.date);
     }
   }
 
   public draw(context: CanvasRenderingContext2D): void {
     if (this.game.debug) {
-      context.font = '20px Helvetica';
+      context.font = `20px ${FONT_FAMILY}`;
       context.fillText(this.lives.toString(), this.x, this.y);
       context.strokeRect(this.x, this.y, this.width, this.height);
     }
+    if (this.isFlashing) {
+      context.globalAlpha = 0.7;
+    }
+
     context.drawImage(
       this.image as CanvasImageSource,
-      this.frameX * this.width,
-      this.frameY * this.height,
+      0,
+      0,
       this.width,
       this.height,
       this.x,
@@ -66,6 +62,14 @@ export class Enemy implements IDrawable {
       this.height
     );
     this.drawDate(context);
+    context.globalAlpha = 1.0;
+  }
+
+  public flash(): void {
+    this.isFlashing = true;
+    setTimeout(() => {
+      this.isFlashing = false;
+    }, 100);
   }
 
   protected drawDate(context: CanvasRenderingContext2D): void {
@@ -90,59 +94,81 @@ export class Enemy implements IDrawable {
     const dateTextY = this.y + this.height / 2.7;
     context.fillText(dateText, dateTextX, dateTextY, this.width);
   }
+
+  protected updateSize(): void {
+    const asset = IMAGES.find((i) => i.key === this.type);
+    this.width = asset?.width ?? 0;
+    this.height = asset?.height ?? 0;
+  }
 }
 
 export class EnemyOne extends Enemy {
-  public width: number = 228;
-  public height: number = 169;
+  public width: number = 0;
+  public height: number = 0;
 
-  public frameY = Math.floor(Math.random() * 3);
   public lives: number = 5;
   public score: number = this.lives;
   public type: EEnemyType = EEnemyType.ONE;
 
   constructor(game: Game, date: string) {
     super(game, date);
-    this.y = Math.random() * (this.game.height * 0.9 - this.height);
     this.image = document.getElementById(this.type);
+    this.updateSize();
+    this.y = Math.random() * (this.game.height * 0.9 - this.height);
   }
 }
 
 export class EnemyTwo extends Enemy {
-  public width: number = 213;
-  public height: number = 165;
+  public width: number = 0;
+  public height: number = 0;
 
-  public frameY = Math.floor(Math.random() * 2);
   public lives: number = 6;
   public score: number = this.lives;
   public type: EEnemyType = EEnemyType.TWO;
 
   constructor(game: Game, date: string) {
     super(game, date);
-    this.y = Math.random() * (this.game.height * 0.95 - this.height);
     this.image = document.getElementById(this.type);
+    this.updateSize();
+    this.y = Math.random() * (this.game.height * 0.95 - this.height);
+  }
+}
+
+export class EnemyThree extends Enemy {
+  public width: number = 0;
+  public height: number = 0;
+
+  public lives: number = 4;
+  public score: number = this.lives;
+  public type: EEnemyType = EEnemyType.THREE;
+
+  constructor(game: Game, date: string) {
+    super(game, date);
+    this.image = document.getElementById(this.type);
+    this.updateSize();
+    this.y = Math.random() * (this.game.height * 0.95 - this.height);
   }
 }
 
 export class PowerUpEnemy extends Enemy {
-  public width: number = 99;
-  public height: number = 95;
+  public width: number = 0;
+  public height: number = 0;
 
-  public frameY = Math.floor(Math.random() * 2);
   public lives: number = 5;
   public score: number = 15;
   public type: EEnemyType = EEnemyType.POWER_UP;
 
   constructor(game: Game, date: string) {
     super(game, date);
-    this.y = Math.random() * (this.game.height * 0.95 - this.height);
     this.image = document.getElementById(this.type);
+    this.updateSize();
+    this.y = Math.random() * (this.game.height * 0.95 - this.height);
   }
 }
 
 export class HiveEnemy extends Enemy {
-  public width: number = 400;
-  public height: number = 227;
+  public width: number = 0;
+  public height: number = 0;
 
   public frameY = 0;
   public lives: number = 20;
@@ -151,8 +177,9 @@ export class HiveEnemy extends Enemy {
 
   constructor(game: Game, date: string) {
     super(game, date);
-    this.y = Math.random() * (this.game.height * 0.95 - this.height);
     this.image = document.getElementById(this.type);
+    this.updateSize();
     this.speedX = Math.random() * -1.2 - 0.2;
+    this.y = Math.random() * (this.game.height * 0.95 - this.height);
   }
 }

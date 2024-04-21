@@ -1,5 +1,5 @@
 import { DATES } from '@/constants';
-import { EEnemyType, type EKey } from '@/enums';
+import { type EKey } from '@/enums';
 import type { IDrawable } from '@/interfaces';
 import { Background } from './Background';
 import {
@@ -7,14 +7,14 @@ import {
   EnemyTwo,
   HiveEnemy,
   PowerUpEnemy,
-  type Enemy
+  type Enemy,
+  EnemyThree
 } from './Enemy';
 import { FireExplosion, SmokeExplosion, type Explosion } from './Explosion';
 import { InputHandler } from './InputHandler';
-import { Particle } from './Particle';
 import { Player } from './Player';
-import { UI } from './UI';
 import type { Projectile } from './Projectile';
+import { UI } from './UI';
 
 export const GAME_OVER = 'game-over';
 
@@ -23,7 +23,7 @@ export class Game {
   public width: number;
 
   public ammo: number = 20;
-  public ammoInterval: number = 350;
+  public ammoInterval: number = 250;
   public ammoTimer: number = 0;
   public maxAmmo: number = 50;
   public maxInterval: number = 50;
@@ -41,7 +41,6 @@ export class Game {
   public explosions: Explosion[] = [];
   public inputHandler: InputHandler;
   public keys: EKey[] = [];
-  public particles: Particle[] = [];
   public player: Player;
   public ui: UI;
 
@@ -57,7 +56,7 @@ export class Game {
   public update(deltaTime: number): void {
     this.background.update();
     this.background.layer4.update();
-    this.player.update(deltaTime);
+    this.player.update();
     if (!this.started) return;
 
     if (this.ammoTimer > this.ammoInterval) {
@@ -66,11 +65,6 @@ export class Game {
     } else {
       this.ammoTimer += deltaTime;
     }
-
-    this.particles.forEach((particle) => particle.update());
-    this.particles = this.particles.filter(
-      (particle) => !particle.markedForDeletion
-    );
 
     this.explosions.forEach((explosion) => explosion.update(deltaTime));
     this.explosions = this.explosions.filter(
@@ -94,7 +88,6 @@ export class Game {
     this.player.draw(context);
     if (!this.started) return;
 
-    this.particles.forEach((particle) => particle.draw(context));
     this.enemies.forEach((enemy) => {
       enemy.draw(context);
     });
@@ -129,8 +122,10 @@ export class Game {
 
     if (randomize < 0.3)
       this.enemies.push(new EnemyOne(this, dateTargetToConfirm));
-    else if (randomize < 0.6)
+    else if (randomize < 0.4)
       this.enemies.push(new EnemyTwo(this, dateTargetToConfirm));
+    else if (randomize < 0.6)
+      this.enemies.push(new EnemyThree(this, dateTargetToConfirm));
     else if (randomize < 0.7)
       this.enemies.push(new HiveEnemy(this, dateTargetToConfirm));
     else this.enemies.push(new PowerUpEnemy(this, dateTargetToConfirm));
@@ -162,7 +157,7 @@ export class Game {
     if (this.checkCollision(projectile, enemy)) {
       enemy.lives--;
       projectile.markedForDeletion = true;
-      this.addParticles(enemy);
+      enemy.flash()
 
       if (enemy.lives <= 0) {
         // handle kill
@@ -176,22 +171,7 @@ export class Game {
   private handlePlayerHitByEnemy(enemy: Enemy): void {
     enemy.markedForDeletion = true;
     this.addExplosion(enemy);
-    this.addParticles(enemy);
-    if (enemy.type == EEnemyType.POWER_UP) {
-      this.player.enterPowerUp();
-    }
-  }
-
-  private addParticles(enemy: Enemy): void {
-    for (let i = 0; i < enemy.score; i++) {
-      this.particles.push(
-        new Particle(
-          this,
-          enemy.x + enemy.width * 0.5,
-          enemy.y + enemy.height * 0.5
-        )
-      );
-    }
+    this.handleKill(enemy);
   }
 
   private addExplosion(enemy: Enemy): void {

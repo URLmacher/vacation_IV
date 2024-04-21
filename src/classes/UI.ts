@@ -21,7 +21,6 @@ export class UI {
     context.fillText(`${TEXTS.toConfirm} ${datesToConfirm}`, 20, 40);
 
     // ammo
-    if (this.game.player.powerUp) context.fillStyle = '#ffffbd';
     for (let i = 0; i < this.game.ammo; i++) {
       context.fillRect(20 + 5 * i, 50, 3, 20);
     }

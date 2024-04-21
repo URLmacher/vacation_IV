@@ -1,61 +1,99 @@
-import { EEnemyType, EExplosionType } from '@/enums';
+import { EAsset, EEnemyType, EExplosionType } from '@/enums';
 import type { IAsset } from '@/interfaces';
 
 export const FONT_FAMILY: string = 'Bangers';
 
 export const IMAGES: IAsset[] = [
   {
-    key: 'layer1',
-    path: '/images/layer1.png'
+    key:EAsset.LAYER5,
+    path: '/images/layer_5.png',
+    width: 1768,
+    height: 884
   },
   {
-    key: 'layer2',
-    path: '/images/layer2.png'
+    key:EAsset.LAYER4,
+    path: '/images/layer_4.png',
+    width: 1768,
+    height: 884
   },
   {
-    key: 'layer3',
-    path: '/images/layer3.png'
+    key:EAsset.LAYER3,
+    path: '/images/layer_3.png',
+    width: 1768,
+    height: 884
   },
   {
-    key: 'layer4',
-    path: '/images/layer4.png'
+    key:EAsset.LAYER2,
+    path: '/images/layer_2.png',
+    width: 1768,
+    height: 884
+  },
+  {
+    key:EAsset.LAYER1,
+    path: '/images/layer_1.png',
+    width: 1768,
+    height: 884
+  },
+  {
+    key:EAsset.LAYER0,
+    path: '/images/layer_0.png',
+    width: 1768,
+    height: 884
   },
   {
     key: EEnemyType.ONE,
-    path: '/images/angler1.png'
+    path: '/images/ship_green.png',
+    width: 263,
+    height: 88
   },
   {
     key: EEnemyType.TWO,
-    path: '/images/angler2.png'
+    path: '/images/ship_pink.png',
+    width: 232,
+    height: 142
+  },
+  {
+    key: EEnemyType.THREE,
+    path: '/images/ship_white.png',
+    width: 253,
+    height: 112
   },
   {
     key: EEnemyType.POWER_UP,
-    path: '/images/lucky.png'
+    path: '/images/ship_red.png',
+    width: 217,
+    height: 86
   },
   {
     key: EEnemyType.HIVE,
-    path: '/images/hivewhale.png'
+    path: '/images/ship_yellow.png',
+    width: 229,
+    height: 108
   },
   {
-    key: 'player',
-    path: '/images/player.png'
+    key: EAsset.PLAYER,
+    path: '/images/ship_blue.png',
+    width: 150,
+    height: 96
   },
   {
     key: EExplosionType.SMOKE,
-    path: '/images/smokeExplosion.png'
+    path: '/images/smokeExplosion.png',
+    width: 1600,
+    height: 200
   },
   {
     key: EExplosionType.FIRE,
-    path: '/images/fireExplosion.png'
+    path: '/images/fireExplosion.png',
+    width: 1600,
+    height: 200
   },
   {
-    key: 'projectile',
-    path: '/images/projectile.png'
+    key: EAsset.PROJECTILE,
+    path: '/images/projectile.png',
+    width: 28,
+    height: 10
   },
-  {
-    key: 'particle',
-    path: '/images/particle.png'
-  }
 ];
 
 export const DATES: string[] = [
@@ -94,7 +132,7 @@ export const TEXTS: Record<string, string> = {
   allConfirmed: 'Alles bestätigt',
   btnText: 'Jetzt bestätigen',
   btnTextRoundTwo: 'Erneut bestätigen',
-  toConfirm: 'bestätigt:',
+  toConfirm: 'Zu bestätigen:',
   thanks: 'Danks',
   vacationTitle: 'Urlaubsantrag',
   vacationYear: '2024'
