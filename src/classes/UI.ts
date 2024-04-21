@@ -3,7 +3,7 @@ import type { Game } from './Game';
 
 export class UI {
   private fontSize: number = 25;
-  private color: string = 'white';
+  private color: string = '#e3c44a';
 
   constructor(private game: Game) {}
 

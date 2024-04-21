@@ -55,8 +55,8 @@
       padding: 30px;
       background: linear-gradient(
         0deg,
-        var(--color-yellow) 0%,
-        var(--color-yellow-alt) 100%
+        var(--color-dark-blue) 0%,
+        var(--color-dark-blue-alt) 100%
       );
       border: 2px solid var(--color-text);
       border-radius: var(--border-radius);

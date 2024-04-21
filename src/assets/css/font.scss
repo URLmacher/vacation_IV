@@ -1,11 +1,21 @@
 @font-face {
-  font-family: 'Jumpman-1m20';
+  font-family: 'Play';
+  font-style: bold;
+  src:
+    local('Play'),
+    url('../fonts/Play-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Play';
   font-style: normal;
-  src: local('Jumpman-1m20'), url('@/assets/fonts/Jumpman-1m20.ttf') format('truetype');
+  src:
+    local('Play'),
+    url('../fonts/Play-Regular.ttf') format('truetype');
 }
 
 @mixin _font($weight, $size) {
-  font-family: 'Jumpman-1m20', Helvetica, Arial, cursive, sans-serif;
+  font-family: 'Play', Helvetica, Arial, cursive, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: $weight;
@@ -25,13 +35,13 @@
 }
 
 h1 {
-  @include _font(normal, 90px);
+  @include _font(bold, 90px);
   @include blockMargins();
   letter-spacing: -1.5px;
 }
 
 h2 {
-  @include _font(normal, 52px);
+  @include _font(bold, 52px);
   @include blockMargins();
   letter-spacing: -0.45px;
 }
@@ -51,14 +61,14 @@ h4 {
 h5 {
   @include _font(600, 20px);
   @include blockMargins();
-  letter-spacing: normal;
+  letter-spacing: bold;
   line-height: 1.2;
 }
 
 h6 {
   @include _font(500, 16px);
   @include blockMargins();
-  letter-spacing: normal;
+  letter-spacing: bold;
   line-height: 1.25;
 }
 
@@ -72,7 +82,7 @@ button {
 }
 
 p {
-  @include _font(normal, 15px);
+  @include _font(bold, 15px);
   @include blockMargins();
   letter-spacing: 0.5px;
   line-height: 1.27;
@@ -83,7 +93,7 @@ span {
 }
 
 small {
-  @include _font(normal, 11px);
+  @include _font(bold, 11px);
   letter-spacing: 0.5px;
   line-height: 1.27;
 }

@@ -36,7 +36,7 @@
     height: 90px;
     width: 90px;
     border-radius: 50%;
-    background-color: var(--color-green);
+    background-color: var(--color-brown-alt);
     border: 2px solid var(--color-text);
     position: absolute;
     left: 50%;
@@ -55,7 +55,7 @@
   }
 
   &__confirmed-text {
-    color: var(--color-pink);
+    color: var(--color-brown);
     font-size: 16px;
 
     @include window-medium {
@@ -70,13 +70,13 @@
     text-decoration: none;
     transition: all 0.35s cubic-bezier(0.1, 0, 0, 1);
     padding: 15px 20px;
-    color: #fff;
+    color: var(--color-text-bright);
     box-shadow:
       inset 0 0 0 var(--color-text),
       0 0 0 var(--color-text);
     text-shadow: 0 0 var(--color-text);
-    background: var(--color-pink);
-    background: linear-gradient(0deg, var(--color-pink) 0%, var(--color-pink-alt) 100%);
+    background: var(--color-brown);
+    background: linear-gradient(0deg, var(--color-brown) 0%, var(--color-brown-alt) 100%);
     border: 2px solid var(--color-text);
     border-radius: var(--border-radius);
     font-size: 20px;

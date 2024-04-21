@@ -73,26 +73,23 @@ export class Enemy implements IDrawable {
   }
 
   protected drawDate(context: CanvasRenderingContext2D): void {
-    // month
     const monthShort = formatMonth(this.date).substring(0, 3);
-    context.fillStyle = '#9b5de5';
+    const dateText = formatDate(this.date);
+    const text = `${monthShort} ${dateText}`;
+
+    context.fillStyle = '#e3c44a';
+    context.shadowOffsetX = 2;
+    context.shadowOffsetY = 2;
+    context.shadowColor = 'black';
     const textFontSize = Math.ceil(this.height / 4);
     context.font = `${textFontSize}px ${FONT_FAMILY}`;
-    const monthShortWidth = context.measureText(monthShort).width;
-    const monthShortX = Math.round(
-      this.x + (this.width / 2.2 - monthShortWidth / 2)
+
+    const textWidth = context.measureText(text).width;
+    const textX = Math.round(
+      this.x + (this.width / 2.2 - textWidth / 2)
     );
-    const monthShortY = this.y + this.height / 2.8 + textFontSize;
-    context.fillText(monthShort, monthShortX, monthShortY, this.width);
-    // day
-    context.fillStyle = '#00bbf9';
-    const dateText = formatDate(this.date);
-    const dateTextWidth = context.measureText(dateText).width;
-    const dateTextX = Math.round(
-      this.x + (this.width / 2.2 - dateTextWidth / 2)
-    );
-    const dateTextY = this.y + this.height / 2.7;
-    context.fillText(dateText, dateTextX, dateTextY, this.width);
+    const textY = this.y + this.height * 0.44 + textFontSize / 2;
+    context.fillText(text, textX, textY, this.width);
   }
 
   protected updateSize(): void {

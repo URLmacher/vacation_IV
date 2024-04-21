@@ -16,11 +16,7 @@
       <FireWork />
       <p class="vacation__confirmed-text">{{ TEXTS.allConfirmed }}</p>
     </div>
-    <button
-      class="vacation__button"
-      @click="startGame"
-      :disabled="gameStarted"
-    >
+    <button class="vacation__button" @click="startGame" :disabled="gameStarted">
       {{ newGamePlus ? TEXTS.btnTextRoundTwo : TEXTS.btnText }}
     </button>
   </DialogOverlay>
@@ -96,6 +92,8 @@
     width: 100%;
     max-width: 1768px;
     max-height: 800px;
+    border: 4px solid var(--color-violet);
+    border-radius: 4px;
   }
 
   .asset {
