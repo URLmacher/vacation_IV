@@ -14,7 +14,7 @@ export class Sizeable {
 
   protected drawImage(
     context: CanvasRenderingContext2D,
-    overrides?: { x: number; y: number }
+    overrides?: { x?: number; y?: number; width?: number; height?: number }
   ): void {
     context.drawImage(
       this.image as CanvasImageSource,
@@ -24,8 +24,8 @@ export class Sizeable {
       this.originalHeight,
       this.x,
       this.y,
-      this.width,
-      this.height
+      overrides?.width ?? this.width,
+      overrides?.height ?? this.height
     );
   }
 

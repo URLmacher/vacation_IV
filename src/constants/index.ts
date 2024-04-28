@@ -82,15 +82,15 @@ export const IMAGES: IAsset[] = [
   },
   {
     key: EExplosionType.SMOKE,
-    path: '/images/smokeExplosion.png',
-    width: 200,
-    height: 200
+    path: '/images/explosions/explosion_1.png',
+    width: 64,
+    height: 64
   },
   {
     key: EExplosionType.FIRE,
-    path: '/images/fireExplosion.png',
-    width: 200,
-    height: 200
+    path: '/images/explosions/explosion_2.png',
+    width: 64,
+    height: 64
   },
   {
     key: EAsset.PROJECTILE,

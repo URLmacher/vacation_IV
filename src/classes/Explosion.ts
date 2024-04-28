@@ -8,7 +8,7 @@ export class Explosion extends Sizeable implements IDrawable {
   public frameX: number = 0;
   public interval: number;
   public markedForDeletion: boolean = false;
-  public maxFrame: number = 8;
+  public maxFrame: number = 16;
   public timer: number = 0;
   public type: EExplosionType = EExplosionType.BASE;
 
@@ -31,11 +31,24 @@ export class Explosion extends Sizeable implements IDrawable {
     } else {
       this.timer += deltaTime;
     }
-    if (this.frameX > this.maxFrame) this.markedForDeletion = true;
+    if (this.frameX > this.maxFrame) {
+      this.frameX = 0;
+      this.markedForDeletion = true;
+    }
   }
 
   public draw(context: CanvasRenderingContext2D): void {
-    this.drawImage(context, { x: this.frameX * this.originalWidth, y: 0 });
+    const frameWidth = this.originalWidth;
+    const frameHeight = this.originalHeight;
+    const frameX = (this.frameX % 4) * frameWidth;
+    const frameY = Math.floor(this.frameX / 4) * frameHeight;
+
+    this.drawImage(context, {
+      x: frameX,
+      y: frameY,
+      width: this.width * 2,
+      height: this.height * 2
+    });
   }
 }
 
