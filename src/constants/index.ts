@@ -136,8 +136,11 @@ export const TEXTS: Record<string, string> = {
   allConfirmed: 'Alles bestätigt',
   btnText: 'Jetzt bestätigen',
   btnTextRoundTwo: 'Erneut bestätigen',
-  toConfirm: 'Zu bestätigen:',
+  controls: 'controls:',
+  controlsShoot: 'SPACE or Tap to shoot',
+  controlsMove: 'ARROW Keys or swipe to move',
   thanks: 'Danks',
+  toConfirm: 'Zu bestätigen:',
   vacationTitle: 'Urlaubsantrag',
-  vacationYear: '2024'
+  vacationYear: '2024',
 };

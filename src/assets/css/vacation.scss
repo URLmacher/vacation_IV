@@ -123,4 +123,14 @@
     width: 35px;
     margin-right: 5px;
   }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__controls-text {
+    @include _font(400, 14px);
+    color: var(--color-white-alt);
+  }
 }

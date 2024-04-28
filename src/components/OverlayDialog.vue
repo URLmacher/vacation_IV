@@ -19,7 +19,13 @@
         </div>
       </div>
     </div>
-    <div class="right-overlay"></div>
+    <div class="right-overlay">
+      <div class="vacation__controls">
+        <p class="vacation__controls-text">{{ TEXTS.controls }}</p>
+        <p class="vacation__controls-text">{{ TEXTS.controlsShoot }}</p>
+        <p class="vacation__controls-text">{{ TEXTS.controlsMove }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -84,6 +90,10 @@
   .right-overlay {
     width: 0%;
     right: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: end;
+    align-items: end;
     transform: translateX(100%);
 
     @include window-medium {
