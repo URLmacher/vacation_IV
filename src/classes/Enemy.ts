@@ -1,22 +1,17 @@
+import { COLOR, FONT_FAMILY, MAX_WIDTH } from '@/constants';
 import { EEnemyType } from '@/enums';
-import type { Game } from './Game';
 import type { IDrawable } from '@/interfaces';
 import { formatDate, formatMonth } from '@/utils';
-import { FONT_FAMILY, IMAGES } from '@/constants';
+import type { Game } from './Game';
+import { Sizeable } from './Sizeable';
 
-export class Enemy implements IDrawable {
-  public x: number;
-  public y: number = 0;
-  public width: number = 0;
-  public height: number = 0;
-
+export class Enemy extends Sizeable implements IDrawable {
   public date: string;
-
-  public image: HTMLElement | null = null;
-  public lives: number = 3;
+  public fontOffset: number = 2.2;
+  public fontScale: number = 1;
   public isFlashing: boolean = false;
+  public lives: number = 3;
   public markedForDeletion: boolean = false;
-  public score: number = 0;
   public speedX: number = Math.random() * -1.5 - 0.5;
   public type: EEnemyType = EEnemyType.BASE;
 
@@ -26,10 +21,12 @@ export class Enemy implements IDrawable {
     x?: number,
     y?: number
   ) {
+    super(game);
     this.date = date;
     this.y = y != null ? y : this.y;
     this.x = x != null ? x : this.game.width;
-    this.speedX = Math.random() * -1.5 - 0.5;
+    const scale = this.game.width / MAX_WIDTH;
+    this.speedX = this.speedX * scale;
   }
 
   public update(): void {
@@ -50,17 +47,7 @@ export class Enemy implements IDrawable {
       context.globalAlpha = 0.7;
     }
 
-    context.drawImage(
-      this.image as CanvasImageSource,
-      0,
-      0,
-      this.width,
-      this.height,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
+    this.drawImage(context);
     this.drawDate(context);
     context.globalAlpha = 1.0;
   }
@@ -77,105 +64,84 @@ export class Enemy implements IDrawable {
     const dateText = formatDate(this.date);
     const text = `${monthShort} ${dateText}`;
 
-    context.fillStyle = '#e3c44a';
+    context.fillStyle = COLOR;
     context.shadowOffsetX = 2;
     context.shadowOffsetY = 2;
     context.shadowColor = 'black';
-    const textFontSize = Math.ceil(this.height / 4);
+    const textFontSize = Math.ceil(this.height / 4) * this.fontScale;
     context.font = `${textFontSize}px ${FONT_FAMILY}`;
 
     const textWidth = context.measureText(text).width;
     const textX = Math.round(
-      this.x + (this.width / 2.2 - textWidth / 2)
+      this.x + (this.width / this.fontOffset - textWidth / 2)
     );
-    const textY = this.y + this.height * 0.44 + textFontSize / 2;
+    const textY = this.y + this.height * 0.45 + textFontSize / 2;
     context.fillText(text, textX, textY, this.width);
-  }
-
-  protected updateSize(): void {
-    const asset = IMAGES.find((i) => i.key === this.type);
-    this.width = asset?.width ?? 0;
-    this.height = asset?.height ?? 0;
   }
 }
 
-export class EnemyOne extends Enemy {
-  public width: number = 0;
-  public height: number = 0;
-
+export class RedEnemy extends Enemy {
   public lives: number = 5;
-  public score: number = this.lives;
-  public type: EEnemyType = EEnemyType.ONE;
+  public type: EEnemyType = EEnemyType.RED;
 
   constructor(game: Game, date: string) {
     super(game, date);
     this.image = document.getElementById(this.type);
-    this.updateSize();
+    this.updateSize(this.type);
     this.y = Math.random() * (this.game.height * 0.9 - this.height);
   }
 }
 
-export class EnemyTwo extends Enemy {
-  public width: number = 0;
-  public height: number = 0;
-
+export class PinkEnemy extends Enemy {
+  public fontOffset: number = 1.8;
+  public fontScale: number = 0.52;
   public lives: number = 6;
-  public score: number = this.lives;
-  public type: EEnemyType = EEnemyType.TWO;
+  public type: EEnemyType = EEnemyType.PINK;
 
   constructor(game: Game, date: string) {
     super(game, date);
     this.image = document.getElementById(this.type);
-    this.updateSize();
+    this.updateSize(this.type);
     this.y = Math.random() * (this.game.height * 0.95 - this.height);
   }
 }
 
-export class EnemyThree extends Enemy {
-  public width: number = 0;
-  public height: number = 0;
-
+export class YellowEnemy extends Enemy {
+  public fontScale: number = 0.85;
   public lives: number = 4;
-  public score: number = this.lives;
-  public type: EEnemyType = EEnemyType.THREE;
+  public type: EEnemyType = EEnemyType.YELLOW;
 
   constructor(game: Game, date: string) {
     super(game, date);
     this.image = document.getElementById(this.type);
-    this.updateSize();
+    this.updateSize(this.type);
     this.y = Math.random() * (this.game.height * 0.95 - this.height);
   }
 }
 
-export class PowerUpEnemy extends Enemy {
-  public width: number = 0;
-  public height: number = 0;
-
+export class WhiteEnemy extends Enemy {
+  public fontOffset: number = 1.9;
+  public fontScale: number = 0.7;
   public lives: number = 5;
-  public score: number = 15;
-  public type: EEnemyType = EEnemyType.POWER_UP;
+  public type: EEnemyType = EEnemyType.WHITE;
 
   constructor(game: Game, date: string) {
     super(game, date);
     this.image = document.getElementById(this.type);
-    this.updateSize();
+    this.updateSize(this.type);
     this.y = Math.random() * (this.game.height * 0.95 - this.height);
   }
 }
 
-export class HiveEnemy extends Enemy {
-  public width: number = 0;
-  public height: number = 0;
-
-  public frameY = 0;
-  public lives: number = 20;
-  public score: number = this.lives;
-  public type: EEnemyType = EEnemyType.HIVE;
+export class GreenEnemy extends Enemy {
+  public fontOffset: number = 2.1;
+  public lives: number = 11;
+  public type: EEnemyType = EEnemyType.GREEN;
 
   constructor(game: Game, date: string) {
     super(game, date);
     this.image = document.getElementById(this.type);
-    this.updateSize();
+    this.updateSize(this.type);
     this.speedX = Math.random() * -1.2 - 0.2;
     this.y = Math.random() * (this.game.height * 0.95 - this.height);
   }

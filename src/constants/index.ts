@@ -2,70 +2,74 @@ import { EAsset, EEnemyType, EExplosionType } from '@/enums';
 import type { IAsset } from '@/interfaces';
 
 export const FONT_FAMILY: string = 'ethnocentric';
+export const COLOR: string = '#e3c44a';
+
+export const MAX_WIDTH: number = 1768;
+export const MAX_HEIGHT: number = 884;
 
 export const IMAGES: IAsset[] = [
   {
-    key:EAsset.LAYER5,
+    key: EAsset.LAYER5,
     path: '/images/layer_5.png',
-    width: 1768,
-    height: 884
+    width: MAX_WIDTH,
+    height: MAX_HEIGHT
   },
   {
-    key:EAsset.LAYER4,
+    key: EAsset.LAYER4,
     path: '/images/layer_4.png',
-    width: 1768,
-    height: 884
+    width: MAX_WIDTH,
+    height: MAX_HEIGHT
   },
   {
-    key:EAsset.LAYER3,
+    key: EAsset.LAYER3,
     path: '/images/layer_3.png',
-    width: 1768,
-    height: 884
+    width: MAX_WIDTH,
+    height: MAX_HEIGHT
   },
   {
-    key:EAsset.LAYER2,
+    key: EAsset.LAYER2,
     path: '/images/layer_2.png',
-    width: 1768,
-    height: 884
+    width: MAX_WIDTH,
+    height: MAX_HEIGHT
   },
   {
-    key:EAsset.LAYER1,
+    key: EAsset.LAYER1,
     path: '/images/layer_1.png',
-    width: 1768,
-    height: 884
+    width: MAX_WIDTH,
+    height: MAX_HEIGHT
   },
   {
-    key:EAsset.LAYER0,
+    key: EAsset.LAYER0,
     path: '/images/layer_0.png',
-    width: 1768,
-    height: 884
+    width: MAX_WIDTH,
+    height: MAX_HEIGHT
   },
   {
-    key: EEnemyType.ONE,
+    key: EEnemyType.GREEN,
     path: '/images/ship_green.png',
     width: 263,
     height: 88
   },
   {
-    key: EEnemyType.TWO,
+    key: EEnemyType.PINK,
     path: '/images/ship_pink.png',
     width: 232,
     height: 142
   },
   {
-    key: EEnemyType.THREE,
+    key: EEnemyType.WHITE,
     path: '/images/ship_white.png',
     width: 253,
     height: 112
   },
   {
-    key: EEnemyType.POWER_UP,
+    key: EEnemyType.RED,
     path: '/images/ship_red.png',
     width: 217,
     height: 86
   },
   {
-    key: EEnemyType.HIVE,
+    key: EEnemyType.YELLOW,
     path: '/images/ship_yellow.png',
     width: 229,
     height: 108
@@ -79,13 +83,13 @@ export const IMAGES: IAsset[] = [
   {
     key: EExplosionType.SMOKE,
     path: '/images/smokeExplosion.png',
-    width: 1600,
+    width: 200,
     height: 200
   },
   {
     key: EExplosionType.FIRE,
     path: '/images/fireExplosion.png',
-    width: 1600,
+    width: 200,
     height: 200
   },
   {
@@ -93,39 +97,39 @@ export const IMAGES: IAsset[] = [
     path: '/images/projectile.png',
     width: 28,
     height: 10
-  },
+  }
 ];
 
 export const DATES: string[] = [
   `2023-05-08T00:00:00.000Z`,
   `2023-05-17T00:00:00.000Z`,
   `2023-05-19T00:00:00.000Z`,
-  `2023-05-22T00:00:00.000Z`
+  `2023-05-22T00:00:00.000Z`,
 
-  // `2023-06-09T00:00:00.000Z`,
-  // `2023-06-12T00:00:00.000Z`,
-  // `2023-06-13T00:00:00.000Z`,
-  // `2023-06-14T00:00:00.000Z`,
-  // `2023-06-19T00:00:00.000Z`,
-  // `2023-06-26T00:00:00.000Z`,
+  `2023-06-09T00:00:00.000Z`,
+  `2023-06-12T00:00:00.000Z`,
+  `2023-06-13T00:00:00.000Z`,
+  `2023-06-14T00:00:00.000Z`,
+  `2023-06-19T00:00:00.000Z`,
+  `2023-06-26T00:00:00.000Z`,
 
-  // `2023-07-03T00:00:00.000Z`,
-  // `2023-07-10T00:00:00.000Z`,
-  // `2023-07-17T00:00:00.000Z`,
-  // `2023-07-18T00:00:00.000Z`,
-  // `2023-07-19T00:00:00.000Z`,
-  // `2023-07-20T00:00:00.000Z`,
-  // `2023-07-21T00:00:00.000Z`,
-  // `2023-07-24T00:00:00.000Z`,
-  // `2023-07-31T00:00:00.000Z`,
+  `2023-07-03T00:00:00.000Z`,
+  `2023-07-10T00:00:00.000Z`,
+  `2023-07-17T00:00:00.000Z`,
+  `2023-07-18T00:00:00.000Z`,
+  `2023-07-19T00:00:00.000Z`,
+  `2023-07-20T00:00:00.000Z`,
+  `2023-07-21T00:00:00.000Z`,
+  `2023-07-24T00:00:00.000Z`,
+  `2023-07-31T00:00:00.000Z`,
 
-  // `2023-08-07T00:00:00.000Z`,
-  // `2023-08-14T00:00:00.000Z`,
-  // `2023-08-21T00:00:00.000Z`,
-  // `2023-08-28T00:00:00.000Z`,
+  `2023-08-07T00:00:00.000Z`,
+  `2023-08-14T00:00:00.000Z`,
+  `2023-08-21T00:00:00.000Z`,
+  `2023-08-28T00:00:00.000Z`,
 
-  // `2023-09-04T00:00:00.000Z`,
-  // `2023-09-11T00:00:00.000Z`
+  `2023-09-04T00:00:00.000Z`,
+  `2023-09-11T00:00:00.000Z`
 ].reverse();
 
 export const TEXTS: Record<string, string> = {

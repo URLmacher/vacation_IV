@@ -13,7 +13,7 @@
           <span class="vacation__button-arrow"></span>
           {{ newGamePlus ? TEXTS.btnTextRoundTwo : TEXTS.btnText }}
         </button>
-        <div v-if="!newGamePlus" class="vacation__confirmed">
+        <div v-if="newGamePlus" class="vacation__confirmed">
           <FireWork />
           <p class="vacation__confirmed-text">{{ TEXTS.allConfirmed }}</p>
         </div>
@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
   import { TEXTS } from '@/constants';
-  import FireWork from '@/components/FireWork.vue'
+  import FireWork from '@/components/FireWork.vue';
 
   interface IProps {
     gameStarted: boolean;
@@ -39,7 +39,7 @@
 
 <style lang="scss">
   .overlay {
-    // pointer-events: none;
+    pointer-events: none;
     position: fixed;
     z-index: 100;
     left: 0;
@@ -51,7 +51,7 @@
 
   .left-overlay,
   .right-overlay {
-    // pointer-events: none;
+    pointer-events: none;
     position: absolute;
     top: 0;
     height: 100%;
@@ -77,7 +77,7 @@
     @include background-pattern;
 
     @include window-medium {
-      width: 70%;
+      width: 60%;
     }
   }
 
@@ -87,7 +87,7 @@
     transform: translateX(100%);
 
     @include window-medium {
-      width: 30%;
+      width: 40%;
     }
   }
 

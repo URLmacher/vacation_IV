@@ -1,9 +1,9 @@
+import { EAsset } from '@/enums';
 import type { IDrawable } from '@/interfaces';
 import type { Game } from './Game';
-import { IMAGES } from '@/constants';
-import { EAsset } from '@/enums';
+import { Sizeable } from './Sizeable';
 
-export class Layer implements IDrawable {
+export class Layer extends Sizeable implements IDrawable {
   public width: number = 0;
   public height: number = 0;
   public x: number = 0;
@@ -11,13 +11,14 @@ export class Layer implements IDrawable {
   public type: EAsset = EAsset.LAYER1;
 
   constructor(
-    private game: Game,
-    private image: HTMLImageElement,
+    protected game: Game,
+    public image: HTMLImageElement,
     private speedModifier: number,
     type: EAsset
   ) {
+    super(game);
     this.type = type;
-    this.updateSize();
+    this.updateSize(this.type);
   }
 
   public update(): void {
@@ -28,13 +29,28 @@ export class Layer implements IDrawable {
   }
 
   public draw(context: CanvasRenderingContext2D): void {
-    context.drawImage(this.image, this.x, this.y);
-    context.drawImage(this.image, this.x + this.width - 1, this.y);
-  }
+    context.drawImage(
+      this.image,
+      0,
+      0,
+      this.originalWidth,
+      this.originalHeight,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
 
-  protected updateSize(): void {
-    const asset = IMAGES.find((i) => i.key === this.type);
-    this.width = asset?.width ?? 0;
-    this.height = asset?.height ?? 0;
+    context.drawImage(
+      this.image,
+      0,
+      0,
+      this.originalWidth,
+      this.originalHeight,
+      this.x + this.width - 1,
+      this.y,
+      this.width,
+      this.height
+    );
   }
 }

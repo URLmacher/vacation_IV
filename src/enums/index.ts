@@ -7,11 +7,12 @@ export enum EKey {
 
 export enum EEnemyType {
   BASE = 'base',
-  ONE = 'one',
-  TWO = 'two',
-  THREE = 'three',
-  POWER_UP = 'power_up',
-  HIVE = 'hive'
+  BLUE = 'blue',
+  GREEN = 'green',
+  PINK = 'pink',
+  RED = 'red',
+  WHITE = 'white',
+  YELLOW = 'yellow',
 }
 
 export enum EExplosionType {

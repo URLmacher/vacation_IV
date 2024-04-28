@@ -1,6 +1,7 @@
 import { EAsset } from '@/enums';
 import type { Game } from './Game';
 import { Layer } from './Layer';
+import { MAX_WIDTH } from '@/constants';
 
 export class Background {
   public image0: HTMLElement | null = null;
@@ -25,40 +26,42 @@ export class Background {
     this.image1 = document.getElementById(EAsset.LAYER1);
     this.image0 = document.getElementById(EAsset.LAYER0);
 
+    const scale = this.game.width / MAX_WIDTH;
+
     this.layer5 = new Layer(
       this.game,
       this.image5 as HTMLImageElement,
-      0.2,
+      0.2 * scale,
       EAsset.LAYER5
     );
     this.layer4 = new Layer(
       this.game,
       this.image4 as HTMLImageElement,
-      0.3,
+      0.3 * scale,
       EAsset.LAYER4
     );
     this.layer2 = new Layer(
       this.game,
       this.image2 as HTMLImageElement,
-      0.4,
+      0.4 * scale,
       EAsset.LAYER2
     );
     this.layer3 = new Layer(
       this.game,
       this.image3 as HTMLImageElement,
-      0.6,
+      0.2 * scale,
       EAsset.LAYER3
     );
     this.layer1 = new Layer(
       this.game,
       this.image1 as HTMLImageElement,
-      1.6,
+      3.8 * scale,
       EAsset.LAYER1
     );
     this.layer0 = new Layer(
       this.game,
       this.image0 as HTMLImageElement,
-      1.8,
+      3.8 * scale,
       EAsset.LAYER0
     );
 

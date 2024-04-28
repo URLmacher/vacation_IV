@@ -1,31 +1,23 @@
 import type { IDrawable } from '@/interfaces';
 import type { Game } from './Game';
 import { EExplosionType } from '@/enums';
+import { Sizeable } from './Sizeable';
 
-export class Explosion implements IDrawable {
-  public x: number;
-  public y: number;
-  public width: number;
-  public height: number;
-
+export class Explosion extends Sizeable implements IDrawable {
   public fps: number = 30;
   public frameX: number = 0;
-  public image: HTMLElement | null = null;
   public interval: number;
   public markedForDeletion: boolean = false;
   public maxFrame: number = 8;
-  public spriteHeight: number = 200;
-  public spriteWidth: number = 200;
   public timer: number = 0;
   public type: EExplosionType = EExplosionType.BASE;
 
   constructor(
-    private game: Game,
+    protected game: Game,
     x: number,
     y: number
   ) {
-    this.width = this.spriteWidth;
-    this.height = this.spriteHeight;
+    super(game);
     this.x = x - this.width * 0.5;
     this.y = y - this.height * 0.5;
     this.interval = 1000 / this.fps;
@@ -43,18 +35,7 @@ export class Explosion implements IDrawable {
   }
 
   public draw(context: CanvasRenderingContext2D): void {
-    if (!this.image) return;
-    context.drawImage(
-      this.image as CanvasImageSource,
-      this.frameX * this.spriteWidth,
-      0,
-      this.spriteWidth,
-      this.spriteHeight,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
+    this.drawImage(context, { x: this.frameX * this.originalWidth, y: 0 });
   }
 }
 
@@ -64,6 +45,9 @@ export class SmokeExplosion extends Explosion {
   constructor(game: Game, x: number, y: number) {
     super(game, x, y);
     this.image = document.getElementById(this.type);
+    this.updateSize(this.type);
+    this.x = x - this.width * 0.5;
+    this.y = y - this.height * 0.5;
   }
 }
 
@@ -73,5 +57,8 @@ export class FireExplosion extends Explosion {
   constructor(game: Game, x: number, y: number) {
     super(game, x, y);
     this.image = document.getElementById(this.type);
+    this.updateSize(this.type);
+    this.x = x - this.width * 0.5;
+    this.y = y - this.height * 0.5;
   }
 }

@@ -1,14 +1,14 @@
-import { DATES } from '@/constants';
+import { DATES, MAX_WIDTH } from '@/constants';
 import { type EKey } from '@/enums';
 import type { IDrawable } from '@/interfaces';
 import { Background } from './Background';
 import {
-  EnemyOne,
-  EnemyTwo,
-  HiveEnemy,
-  PowerUpEnemy,
-  type Enemy,
-  EnemyThree
+  GreenEnemy,
+  PinkEnemy,
+  RedEnemy,
+  WhiteEnemy,
+  YellowEnemy,
+  type Enemy
 } from './Enemy';
 import { FireExplosion, SmokeExplosion, type Explosion } from './Explosion';
 import { InputHandler } from './InputHandler';
@@ -23,7 +23,7 @@ export class Game {
   public width: number;
 
   public ammo: number = 20;
-  public ammoInterval: number = 250;
+  public ammoInterval: number = 150;
   public ammoTimer: number = 0;
   public maxAmmo: number = 50;
   public maxInterval: number = 50;
@@ -51,6 +51,8 @@ export class Game {
     this.player = new Player(this);
     this.inputHandler = new InputHandler(this);
     this.ui = new UI(this);
+    const scale = this.width / MAX_WIDTH;
+    this.speed = this.speed * scale;
   }
 
   public update(deltaTime: number): void {
@@ -86,14 +88,16 @@ export class Game {
     this.background.draw(context);
     this.ui.draw(context);
     this.player.draw(context);
-    if (!this.started) return;
 
-    this.enemies.forEach((enemy) => {
-      enemy.draw(context);
-    });
-    this.explosions.forEach((explosion) => {
-      explosion.draw(context);
-    });
+    if (this.started) {
+      this.enemies.forEach((enemy) => {
+        enemy.draw(context);
+      });
+      this.explosions.forEach((explosion) => {
+        explosion.draw(context);
+      });
+    }
+
     this.background.layer4.draw(context);
   }
 
@@ -120,15 +124,15 @@ export class Game {
     const dateTargetToConfirm = this.dateTargetsToConfirm.pop();
     if (dateTargetToConfirm == null) return;
 
-    if (randomize < 0.3)
-      this.enemies.push(new EnemyOne(this, dateTargetToConfirm));
+    if (randomize < 0.2)
+      this.enemies.push(new YellowEnemy(this, dateTargetToConfirm));
     else if (randomize < 0.4)
-      this.enemies.push(new EnemyTwo(this, dateTargetToConfirm));
+      this.enemies.push(new RedEnemy(this, dateTargetToConfirm));
     else if (randomize < 0.6)
-      this.enemies.push(new EnemyThree(this, dateTargetToConfirm));
-    else if (randomize < 0.7)
-      this.enemies.push(new HiveEnemy(this, dateTargetToConfirm));
-    else this.enemies.push(new PowerUpEnemy(this, dateTargetToConfirm));
+      this.enemies.push(new GreenEnemy(this, dateTargetToConfirm));
+    else if (randomize < 0.8)
+      this.enemies.push(new WhiteEnemy(this, dateTargetToConfirm));
+    else this.enemies.push(new PinkEnemy(this, dateTargetToConfirm));
   }
 
   private checkCollision(drawable1: IDrawable, drawable2: IDrawable): boolean {
@@ -157,7 +161,7 @@ export class Game {
     if (this.checkCollision(projectile, enemy)) {
       enemy.lives--;
       projectile.markedForDeletion = true;
-      enemy.flash()
+      enemy.flash();
 
       if (enemy.lives <= 0) {
         // handle kill

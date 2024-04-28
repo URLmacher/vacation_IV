@@ -1,24 +1,25 @@
 import { EAsset, EKey } from '@/enums';
+import type { IDrawable } from '@/interfaces';
 import type { Game } from './Game';
 import { Projectile } from './Projectile';
-import type { IDrawable } from '@/interfaces';
-import { IMAGES } from '@/constants';
+import { Sizeable } from './Sizeable';
+import { MAX_HEIGHT } from '@/constants';
 
-export class Player implements IDrawable {
-  public x: number = 20;
-  public y: number = 100;
-  public width: number = 0;
-  public height: number = 0;
-
+export class Player extends Sizeable implements IDrawable {
   public speedY: number = 0;
-  public maxSpeed: number = 6;
+  public maxSpeed: number = 8;
   public projectiles: Projectile[] = [];
   public lastTurretShot: 'left' | 'right' = 'right';
-  public image: HTMLElement | null = null;
 
-  constructor(private game: Game) {
+  constructor(protected game: Game) {
+    super(game);
     this.image = document.getElementById(EAsset.PLAYER);
-    this.updateSize();
+    this.updateSize(EAsset.PLAYER);
+
+    const scale = this.game.height / MAX_HEIGHT;
+    this.x = 5;
+    this.y = (this.game.height - this.height) / 2;
+    this.maxSpeed = this.maxSpeed * scale;
   }
 
   public update(): void {
@@ -59,17 +60,7 @@ export class Player implements IDrawable {
     this.projectiles.forEach((projectile) => {
       projectile.draw(context);
     });
-    context.drawImage(
-      this.image as CanvasImageSource,
-      0,
-      0,
-      this.width,
-      this.height,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
+    this.drawImage(context);
   }
 
   public shootTop(): void {
@@ -86,11 +77,5 @@ export class Player implements IDrawable {
       this.game.ammo--;
       this.lastTurretShot = this.lastTurretShot === 'right' ? 'left' : 'right';
     }
-  }
-
-  protected updateSize(): void {
-    const asset = IMAGES.find((i) => i.key === EAsset.PLAYER);
-    this.width = asset?.width ?? 0;
-    this.height = asset?.height ?? 0;
   }
 }

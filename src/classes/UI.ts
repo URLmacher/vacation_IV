@@ -1,11 +1,14 @@
-import { DATES, FONT_FAMILY, TEXTS } from '@/constants';
+import { DATES, FONT_FAMILY, MAX_WIDTH, TEXTS, COLOR } from '@/constants';
 import type { Game } from './Game';
 
 export class UI {
   private fontSize: number = 25;
-  private color: string = '#e3c44a';
+  private color: string = COLOR;
 
-  constructor(private game: Game) {}
+  constructor(private game: Game) {
+    const scale = this.game.width / MAX_WIDTH;
+    this.fontSize = this.fontSize * scale;
+  }
 
   public update(): void {}
 
