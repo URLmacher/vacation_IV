@@ -9,25 +9,19 @@
     :src="image.path"
   />
 
-  <DialogOverlay :open="!gameStarted">
-    <h1 class="vacation__title">{{ TEXTS.vacationTitle }}</h1>
-    <h3 class="vacation__sub-title">{{ TEXTS.vacationYear }}</h3>
-    <div v-if="newGamePlus" class="vacation__confirmed">
-      <FireWork />
-      <p class="vacation__confirmed-text">{{ TEXTS.allConfirmed }}</p>
-    </div>
-    <button class="vacation__button" @click="startGame" :disabled="gameStarted">
-      {{ newGamePlus ? TEXTS.btnTextRoundTwo : TEXTS.btnText }}
-    </button>
-  </DialogOverlay>
+  <OverlayDialog
+    :newGamePlus="newGamePlus"
+    :show="!gameStarted"
+    :game-started="gameStarted"
+    @start-game="startGame"
+  ></OverlayDialog>
 </template>
 
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted, ref } from 'vue';
-  import DialogOverlay from './components/DialogOverlay.vue';
-  import FireWork from './components/FireWork.vue';
   import { GAME_OVER, Game } from './classes/Game';
-  import { IMAGES, TEXTS } from './constants';
+  import OverlayDialog from './components/OverlayDialog.vue';
+  import { IMAGES } from './constants';
   import { debounce } from './utils';
 
   const canvasDomElement = ref<HTMLCanvasElement | null>(null);
@@ -88,11 +82,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 100%;
-    width: 100%;
+    height: calc(100% - 48px);
+    width: calc(100% - 48px);
     max-width: 1768px;
     max-height: 800px;
-    border: 4px solid var(--color-violet);
+    border: 2px solid var(--color-dark-blue-alt);
     border-radius: 4px;
   }
 

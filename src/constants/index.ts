@@ -1,7 +1,7 @@
 import { EAsset, EEnemyType, EExplosionType } from '@/enums';
 import type { IAsset } from '@/interfaces';
 
-export const FONT_FAMILY: string = 'Play';
+export const FONT_FAMILY: string = 'ethnocentric';
 
 export const IMAGES: IAsset[] = [
   {

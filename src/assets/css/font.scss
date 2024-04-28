@@ -1,21 +1,21 @@
 @font-face {
-  font-family: 'Play';
+  font-family: 'ethnocentric';
   font-style: bold;
   src:
-    local('Play'),
-    url('../fonts/Play-Bold.ttf') format('truetype');
+    local('ethnocentric'),
+    url('../fonts/ethnocentric rg.otf') format('opentype');
 }
 
 @font-face {
-  font-family: 'Play';
+  font-family: 'ethnocentric';
   font-style: normal;
   src:
-    local('Play'),
-    url('../fonts/Play-Regular.ttf') format('truetype');
+    local('ethnocentric'),
+    url('../fonts/ethnocentric rg.otf') format('opentype');
 }
 
 @mixin _font($weight, $size) {
-  font-family: 'Play', Helvetica, Arial, cursive, sans-serif;
+  font-family: 'ethnocentric', Helvetica, Arial, cursive, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: $weight;

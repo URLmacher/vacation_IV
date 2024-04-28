@@ -22,29 +22,7 @@ body {
   display: flex;
   color: var(--color-text);
   @include _font(400, 15px);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: var(--color-text);
-  background-image: url('../public/images/wallpaper.png');
-}
-
-
-button:active {
-  transform: scale(0.98);
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-button:hover {
-  border-radius: 10px;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.2);
-  transform: scale(1.06);
-  text-shadow: 0 -1px rgba(0, 0, 0, 0.1);
-}
-
-button:visited {
-  transform: scale(1);
+  @include background-pattern;
 }
 
 #app {
