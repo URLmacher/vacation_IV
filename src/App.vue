@@ -13,6 +13,15 @@
     :src="image.path"
   />
 
+  <audio
+    v-for="sound of SOUNDS"
+    class="asset"
+    :key="sound.key"
+    :id="sound.key"
+    :src="sound.path"
+    :loop="!!sound.loop"
+  />
+
   <OverlayDialog
     :newGamePlus="newGamePlus"
     :show="!gameStarted"
@@ -25,8 +34,9 @@
   import { onBeforeUnmount, onMounted, ref } from 'vue';
   import { GAME_OVER, Game } from './classes/Game';
   import OverlayDialog from './components/OverlayDialog.vue';
-  import { IMAGES, MAX_WIDTH, MAX_HEIGHT } from './constants';
+  import { IMAGES, SOUNDS, MAX_WIDTH, MAX_HEIGHT } from './constants';
   import { debounce } from './utils';
+  import { EAsset } from '@/enums';
 
   const canvasDomElement = ref<HTMLCanvasElement | null>(null);
   const context = ref<CanvasRenderingContext2D | null>(null);
@@ -40,11 +50,13 @@
   const startGame = (): void => {
     gameStarted.value = true;
     game.value?.start();
+    void (document.getElementById(EAsset.BGMUSIC) as HTMLAudioElement)?.play();
   };
 
   const stopGame = (): void => {
     gameStarted.value = false;
     newGamePlus.value = true;
+    void (document.getElementById(EAsset.FX_WIN) as HTMLAudioElement)?.play();
   };
 
   onMounted((): void => {

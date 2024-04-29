@@ -7,6 +7,7 @@ import { MAX_WIDTH } from '@/constants';
 export class Projectile extends Sizeable implements IDrawable {
   public markedForDeletion = false;
   public speed = 4;
+  public audio = document.getElementById(EAsset.FX_SHOT) as HTMLAudioElement;
 
   constructor(
     protected game: Game,
@@ -20,6 +21,8 @@ export class Projectile extends Sizeable implements IDrawable {
     this.updateSize(EAsset.PROJECTILE);
     const scale = this.game.width / MAX_WIDTH;
     this.speed = this.speed * scale;
+
+    void this.audio.play();
   }
 
   public update(): void {

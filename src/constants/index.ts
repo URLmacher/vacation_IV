@@ -1,5 +1,5 @@
 import { EAsset, EEnemyType, EExplosionType } from '@/enums';
-import type { IAsset } from '@/interfaces';
+import type { IImageAsset, ISoundAsset } from '@/interfaces';
 
 export const FONT_FAMILY: string = 'ethnocentric';
 export const COLOR: string = '#e3c44a';
@@ -7,7 +7,7 @@ export const COLOR: string = '#e3c44a';
 export const MAX_WIDTH: number = 1768;
 export const MAX_HEIGHT: number = 884;
 
-export const IMAGES: IAsset[] = [
+export const IMAGES: IImageAsset[] = [
   {
     key: EAsset.LAYER5,
     path: '/images/layer_5.png',
@@ -97,6 +97,26 @@ export const IMAGES: IAsset[] = [
     path: '/images/projectile.png',
     width: 28,
     height: 10
+  }
+];
+
+export const SOUNDS: ISoundAsset[] = [
+  {
+    key: EAsset.BGMUSIC,
+    path: '/sound/bgmusic.wav',
+    loop: true
+  },
+  {
+    key: EAsset.FX_SHOT,
+    path: '/sound/shot.wav'
+  },
+  {
+    key: EAsset.FX_EXPLOSION,
+    path: '/sound/explosion.wav'
+  },
+  {
+    key: EAsset.FX_WIN,
+    path: '/sound/win.wav'
   }
 ];
 
