@@ -88,7 +88,10 @@
   }
 
   .right-overlay {
-    width: 0%;
+    width: 100%;
+    height: 40%;
+    top: auto;
+    bottom: 0;
     right: 0;
     padding: 40px;
     display: flex;
@@ -98,6 +101,8 @@
 
     @include window-medium {
       width: 40%;
+      height: 100%;
+      top:0;
     }
   }
 
