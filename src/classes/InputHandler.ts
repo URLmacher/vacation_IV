@@ -10,7 +10,9 @@ export class InputHandler {
     window.addEventListener('keydown', (e) => this.handleKeydown(e));
     window.addEventListener('keyup', (e) => this.handleKeyup(e));
     window.addEventListener('touchstart', (e) => this.handleTouchStart(e));
-    window.addEventListener('touchmove', (e) => this.handleTouchMove(e));
+    window.addEventListener('touchmove', (e) => this.handleTouchMove(e), {
+      passive: false
+    });
     window.addEventListener('touchend', (e) => this.handleTouchEnd(e));
   }
 
@@ -39,7 +41,9 @@ export class InputHandler {
   }
 
   private handleTouchMove(e: TouchEvent): void {
-    if(!this.touchStartY) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (!this.touchStartY) return;
     this.game.keys = [];
 
     const touchEndY = e.changedTouches[0].clientY;

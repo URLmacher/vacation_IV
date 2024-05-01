@@ -29,7 +29,9 @@ body {
   margin: 0 auto;
   flex: 1;
   display: flex;
-  position: relative;
+  overflow: hidden;
+  position: fixed;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
 }
