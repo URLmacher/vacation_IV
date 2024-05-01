@@ -32,17 +32,23 @@
   }
 
   &__confirmed {
-    height: 90px;
-    width: 90px;
+    height: 70px;
+    width: 70px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    flex-shrink: 0;
     border-radius: 50%;
     background-color: var(--color-brown-alt);
     border: 2px solid var(--color-text);
     align-self: center;
     justify-self: end;
-    margin-top: auto;
+    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-shadow: var(--color-white-alt) 1px 0 4px;
     text-align: center;
 
     @include window-medium {

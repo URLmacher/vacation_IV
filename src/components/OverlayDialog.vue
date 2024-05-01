@@ -13,19 +13,20 @@
           <span class="vacation__button-arrow"></span>
           {{ newGamePlus ? TEXTS.btnTextRoundTwo : TEXTS.btnText }}
         </button>
-        <div v-if="newGamePlus" class="vacation__confirmed">
-          <FireWork />
-          <p class="vacation__confirmed-text">{{ TEXTS.allConfirmed }}</p>
-        </div>
       </div>
     </div>
     <div class="right-overlay">
-      <div v-if="show" class="vacation__controls">
+      <div v-if="!newGamePlus && show" class="vacation__controls">
         <p class="vacation__controls-text">{{ TEXTS.controls }}</p>
         <p class="vacation__controls-text">{{ TEXTS.controlsShoot }}</p>
         <p class="vacation__controls-text">{{ TEXTS.controlsMove }}</p>
       </div>
+      <div v-if="newGamePlus && show" class="vacation__confirmed">
+        <FireWork />
+        <p class="vacation__confirmed-text">{{ TEXTS.allConfirmed }}</p>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -77,7 +78,7 @@
 
   .left-overlay {
     width: 100%;
-    height: 60%;
+    height: 70%;
     bottom: auto;
     left: 0;
     transform: translateX(-100%);
@@ -94,7 +95,7 @@
 
   .right-overlay {
     width: 100%;
-    height: 40%;
+    height: 30%;
     top: auto;
     bottom: 0;
     right: 0;
