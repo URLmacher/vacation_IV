@@ -10,7 +10,6 @@ export class InputHandler {
     window.addEventListener('keydown', (e) => this.handleKeydown(e));
     window.addEventListener('keyup', (e) => this.handleKeyup(e));
     window.addEventListener('touchstart', (e) => this.handleTouchStart(e));
-    window.addEventListener('touchmove', (e) => this.handleTouchMove(e));
     window.addEventListener('touchend', (e) => this.handleTouchEnd(e));
   }
 
@@ -29,17 +28,18 @@ export class InputHandler {
 
   private handleKeyup(e: KeyboardEvent): void {
     const key = e.key as EKey;
+    this.removeKey(key);
+  }
+
+  private removeKey(key: EKey): void {
     if (this.game.keys.includes(key)) {
       this.game.keys = this.game.keys.filter((gameKey) => gameKey !== key);
     }
   }
 
   private handleTouchStart(e: TouchEvent): void {
+    this.game.keys = [];
     this.touchStartY = e.touches[0].clientY;
-  }
-
-  private handleTouchMove(e: TouchEvent): void {
-    e.preventDefault(); // Prevent scrolling on touchmove
   }
 
   private handleTouchEnd(e: TouchEvent): void {
@@ -47,13 +47,16 @@ export class InputHandler {
       const touchEndY = e.changedTouches[0].clientY;
       const deltaY = touchEndY - this.touchStartY;
       if (Math.abs(deltaY) < 10) {
-        this.game.keys.push(EKey.SPACE);
+        this.game.player.shootTop();
       } else if (deltaY < 0) {
+        this.removeKey(EKey.ARROW_DOWN);
         this.game.keys.push(EKey.ARROW_UP);
       } else {
+        this.removeKey(EKey.ARROW_UP);
         this.game.keys.push(EKey.ARROW_DOWN);
       }
       this.touchStartY = null;
     }
+    console.log(this.game.keys);
   }
 }

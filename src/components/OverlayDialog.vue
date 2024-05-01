@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="right-overlay">
-      <div class="vacation__controls">
+      <div v-if="show" class="vacation__controls">
         <p class="vacation__controls-text">{{ TEXTS.controls }}</p>
         <p class="vacation__controls-text">{{ TEXTS.controlsShoot }}</p>
         <p class="vacation__controls-text">{{ TEXTS.controlsMove }}</p>
@@ -60,7 +60,7 @@
     pointer-events: none;
     position: absolute;
     top: 0;
-    height: 100%;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     transition: transform 0.5s ease;
   }
@@ -69,14 +69,17 @@
     display: flex;
     flex-direction: column;
     align-items: end;
+    justify-content: center;
     width: min-content;
     margin: auto;
     height: 100%;
   }
 
   .left-overlay {
-    left: 0;
     width: 100%;
+    height: 60%;
+    bottom: auto;
+    left: 0;
     transform: translateX(-100%);
     padding: 40px;
     border-right: 2px solid var(--color-dark-blue-alt);
@@ -84,6 +87,8 @@
 
     @include window-medium {
       width: 60%;
+      height: 100%;
+      bottom: 0;
     }
   }
 
@@ -102,7 +107,7 @@
     @include window-medium {
       width: 40%;
       height: 100%;
-      top:0;
+      top: 0;
     }
   }
 

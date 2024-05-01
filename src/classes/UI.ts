@@ -21,11 +21,17 @@ export class UI {
     context.font = `${this.fontSize}px ${FONT_FAMILY}`;
     // score
     const datesToConfirm = DATES.length - this.game.dateTargetsConfirmed.length;
-    context.fillText(`${TEXTS.toConfirm} ${datesToConfirm}`, 20, 40);
+    const textX = this.game.width / 30
+    const textY = this.game.height / 19;
+    context.fillText(`${TEXTS.toConfirm} ${datesToConfirm}`, textX, textY);
 
     // ammo
     for (let i = 0; i < this.game.ammo; i++) {
-      context.fillRect(20 + 5 * i, 50, 3, 20);
+      const offsetX = this.game.width / 30 + this.game.width * 0.005 * i;
+      const offsetY = this.game.height / 15;
+      const height = this.game.height / 35;
+      const width = this.game.width * 0.002;
+      context.fillRect(offsetX, offsetY, width, height);
     }
     context.restore();
   }
