@@ -61,9 +61,11 @@
   }
 
   &__button {
-    white-space: nowrap;
-    display: inline-block;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
     pointer-events: all;
+    text-align: right;
     text-transform: none;
     padding: 8px 16px 8px 20px;
     position: relative;
@@ -73,9 +75,11 @@
     color: var(--color-text-bright);
     background-color: transparent;
     border: 2px solid var(--color-white-alt);
-    @include _font(800, 16px);
+    @include _font(800, 14px);
+    white-space: break-spaces;
 
     @include window-medium {
+      white-space: nowrap;
       padding: 16px 32px 16px 40px;
       font-size: 24px;
     }
@@ -89,7 +93,7 @@
     height: 2px;
     width: 25px;
     position: relative;
-    display: inline-block;
+    display: block;
     cursor: pointer;
     margin-right: 15px;
     margin-bottom: 4px;

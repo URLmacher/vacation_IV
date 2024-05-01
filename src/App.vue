@@ -88,10 +88,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: calc(100% - 48px);
-    max-height: calc(100% - 48px);
+    width: 100%;
+    max-height: 100%;
     border: 2px solid var(--color-dark-blue-alt);
     border-radius: 4px;
+
+    @include window-height-min {
+      width: calc(100% - 48px);
+      max-height: calc(100% - 48px);
+    }
   }
 
   .asset {

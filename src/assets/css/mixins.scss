@@ -6,6 +6,13 @@
 }
 
 $window-medium-min: 800px;
+$window-height-min: 500px;
+
+@mixin window-height-min {
+  @media (min-height: #{$window-height-min}) {
+    @content;
+  }
+}
 
 @mixin window-medium {
   @media (min-width: #{$window-medium-min}) {
