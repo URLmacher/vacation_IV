@@ -1,4 +1,4 @@
-import { COLOR, FONT_FAMILY, MAX_WIDTH } from '@/constants';
+import { FONT_FAMILY, MAX_WIDTH } from '@/constants';
 import { EEnemyType } from '@/enums';
 import type { IDrawable } from '@/interfaces';
 import { formatDate, formatMonth } from '@/utils';
@@ -7,7 +7,8 @@ import { Sizeable } from './Sizeable';
 
 export class Enemy extends Sizeable implements IDrawable {
   public date: string;
-  public fontOffset: number = 2.2;
+  public fontOffsetX: number = 2.2;
+  public fontOffsetY: number = 0.45;
   public fontScale: number = 1;
   public isFlashing: boolean = false;
   public lives: number = 3;
@@ -64,23 +65,22 @@ export class Enemy extends Sizeable implements IDrawable {
     const dateText = formatDate(this.date);
     const text = `${monthShort} ${dateText}`;
 
-    context.fillStyle = COLOR;
-    context.shadowOffsetX = 2;
-    context.shadowOffsetY = 2;
-    context.shadowColor = 'black';
+    context.fillStyle = '#172038';
     const textFontSize = Math.ceil(this.height / 4) * this.fontScale;
     context.font = `${textFontSize}px ${FONT_FAMILY}`;
 
     const textWidth = context.measureText(text).width;
     const textX = Math.round(
-      this.x + (this.width / this.fontOffset - textWidth / 2)
+      this.x + (this.width / this.fontOffsetX - textWidth / 2)
     );
-    const textY = this.y + this.height * 0.45 + textFontSize / 2;
+    const textY = this.y + this.height * this.fontOffsetY + textFontSize / 2;
     context.fillText(text, textX, textY, this.width);
   }
 }
 
 export class RedEnemy extends Enemy {
+  public fontOffsetX: number = 2.0;
+  public fontScale: number = 0.82;
   public lives: number = 5;
   public type: EEnemyType = EEnemyType.RED;
 
@@ -93,7 +93,8 @@ export class RedEnemy extends Enemy {
 }
 
 export class PinkEnemy extends Enemy {
-  public fontOffset: number = 1.8;
+  public fontOffsetX: number = 1.8;
+  public fontOffsetY: number = 0.48;
   public fontScale: number = 0.52;
   public lives: number = 6;
   public type: EEnemyType = EEnemyType.PINK;
@@ -107,7 +108,9 @@ export class PinkEnemy extends Enemy {
 }
 
 export class YellowEnemy extends Enemy {
-  public fontScale: number = 0.85;
+  public fontOffsetX: number = 1.8;
+  public fontOffsetY: number = 0.48;
+  public fontScale: number = 0.75;
   public lives: number = 4;
   public type: EEnemyType = EEnemyType.YELLOW;
 
@@ -120,7 +123,8 @@ export class YellowEnemy extends Enemy {
 }
 
 export class WhiteEnemy extends Enemy {
-  public fontOffset: number = 1.9;
+  public fontOffsetX: number = 1.6;
+  public fontOffsetY: number = 0.48;
   public fontScale: number = 0.7;
   public lives: number = 5;
   public type: EEnemyType = EEnemyType.WHITE;
@@ -134,7 +138,7 @@ export class WhiteEnemy extends Enemy {
 }
 
 export class GreenEnemy extends Enemy {
-  public fontOffset: number = 2.1;
+  public fontOffsetX: number = 2.1;
   public lives: number = 11;
   public type: EEnemyType = EEnemyType.GREEN;
 

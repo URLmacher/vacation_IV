@@ -10,6 +10,7 @@ export class InputHandler {
     window.addEventListener('keydown', (e) => this.handleKeydown(e));
     window.addEventListener('keyup', (e) => this.handleKeyup(e));
     window.addEventListener('touchstart', (e) => this.handleTouchStart(e));
+    window.addEventListener('touchmove', (e) => this.handleTouchMove(e));
     window.addEventListener('touchend', (e) => this.handleTouchEnd(e));
   }
 
@@ -37,26 +38,33 @@ export class InputHandler {
     }
   }
 
+  private handleTouchMove(e: TouchEvent): void {
+    if(!this.touchStartY) return;
+    this.game.keys = [];
+
+    const touchEndY = e.changedTouches[0].clientY;
+    if (this.touchStartY < touchEndY) {
+      this.game.keys.push(EKey.ARROW_DOWN);
+    } else {
+      this.game.keys.push(EKey.ARROW_UP);
+    }
+  }
+
   private handleTouchStart(e: TouchEvent): void {
     this.game.keys = [];
     this.touchStartY = e.touches[0].clientY;
   }
 
   private handleTouchEnd(e: TouchEvent): void {
+    this.game.keys = [];
+
     if (this.touchStartY !== null) {
       const touchEndY = e.changedTouches[0].clientY;
       const deltaY = touchEndY - this.touchStartY;
       if (Math.abs(deltaY) < 10) {
         this.game.player.shootTop();
-      } else if (deltaY < 0) {
-        this.removeKey(EKey.ARROW_DOWN);
-        this.game.keys.push(EKey.ARROW_UP);
-      } else {
-        this.removeKey(EKey.ARROW_UP);
-        this.game.keys.push(EKey.ARROW_DOWN);
       }
       this.touchStartY = null;
     }
-    console.log(this.game.keys);
   }
 }

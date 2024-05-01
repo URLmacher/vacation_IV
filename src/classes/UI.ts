@@ -15,13 +15,10 @@ export class UI {
   public draw(context: CanvasRenderingContext2D): void {
     context.save();
     context.fillStyle = this.color;
-    context.shadowOffsetX = 2;
-    context.shadowOffsetY = 2;
-    context.shadowColor = 'black';
     context.font = `${this.fontSize}px ${FONT_FAMILY}`;
     // score
     const datesToConfirm = DATES.length - this.game.dateTargetsConfirmed.length;
-    const textX = this.game.width / 30
+    const textX = this.game.width / 30;
     const textY = this.game.height / 19;
     context.fillText(`${TEXTS.toConfirm} ${datesToConfirm}`, textX, textY);
 
