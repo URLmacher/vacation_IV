@@ -1,6 +1,6 @@
 import type { IDrawable } from '@/interfaces';
 import type { Game } from './Game';
-import { EExplosionType } from '@/enums';
+import { EAsset, EExplosionType } from '@/enums';
 import { Sizeable } from './Sizeable';
 
 export class Explosion extends Sizeable implements IDrawable {
@@ -11,6 +11,7 @@ export class Explosion extends Sizeable implements IDrawable {
   public maxFrame: number = 16;
   public timer: number = 0;
   public type: EExplosionType = EExplosionType.BASE;
+  public audio = document.getElementById(EAsset.FX_EXPLOSION) as HTMLAudioElement;
 
   constructor(
     protected game: Game,
@@ -21,6 +22,11 @@ export class Explosion extends Sizeable implements IDrawable {
     this.x = x - this.width * 0.5;
     this.y = y - this.height * 0.5;
     this.interval = 1000 / this.fps;
+
+    // To handle overlapping explosions, reset audio first
+    this.audio.pause();
+    this.audio.currentTime = 0;
+    void this.audio.play();
   }
 
   public update(deltaTime: number): void {

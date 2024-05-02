@@ -8,6 +8,13 @@ export interface IDrawable {
 export interface IAsset {
   path: string;
   key: string;
+}
+
+export interface IImageAsset extends IAsset {
   width: number;
   height: number;
+}
+
+export interface ISoundAsset extends IAsset {
+  loop?: boolean;
 }

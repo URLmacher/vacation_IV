@@ -30,4 +30,8 @@ export enum EAsset {
   LAYER3 = 'layer3',
   LAYER4 = 'layer4',
   LAYER5 = 'layer5',
+  BGMUSIC = 'bgmusic',
+  FX_EXPLOSION = 'fx_explosion',
+  FX_SHOT = 'fx_shot',
+  FX_WIN = 'fx_win'
 }
